@@ -6,6 +6,7 @@
     <title>ZARIGATA - Premium Retro Games Portal</title>
     <!-- ZARIGATA premium retro experience stylesheets -->
     <link rel="stylesheet" href="css/zarigata.css">
+    <link rel="stylesheet" href="css/fix-startup.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Font for 8-bit style text -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -27,9 +28,9 @@
     </div>
     
     <!-- Enhanced ZARIGATA Startup Animation -->
-    <div class="startup-animation active" id="zarigata-startup">
+    <div class="startup-animation" id="zarigata-startup">
         <div class="logo-container">
-            <img src="img/zarigata-logo.png" alt="ZARIGATA" class="startup-logo">
+            <img src="img/zarigata-logo.svg" alt="ZARIGATA" class="startup-logo">
         </div>
         <div class="startup-text">PREMIUM RETRO EXPERIENCE</div>
         <div class="startup-text">BY ZARI</div>
@@ -251,6 +252,9 @@
     <script src="js/config.js"></script>
     <script src="js/game-data.js"></script>
     <script src="js/game-loader.js"></script>
+    <script src="js/zarigata-effects.js"></script>
+    <script src="js/force-startup.js"></script>
+
     <script>
         /* 
          * ===================================================
@@ -546,6 +550,56 @@
         
         // === INITIALIZE EVERYTHING WHEN DOM IS READY ===
         document.addEventListener('DOMContentLoaded', () => {
+            // === CODEX OVERRIDE: FORCED STARTUP PROTOCOL ===
+            // Force the startup sequence to complete
+            setTimeout(() => {
+                // Clear any hung startup animation
+                const startupEl = document.getElementById('zarigata-startup');
+                if (startupEl && window.getComputedStyle(startupEl).display !== 'none') {
+                    console.log('::CODEX OVERRIDE:: Forcing startup completion...');
+                    startupEl.style.display = 'none';
+                    startupEl.classList.remove('active');
+                    
+                    // Force game grid to initialize
+                    if (typeof window.initializeGames === 'function') {
+                        window.initializeGames();
+                    }
+                }
+                
+                // Ensure the main container is visible
+                const container = document.querySelector('.container');
+                if (container) container.style.display = 'block';
+                
+                // Make sure game grid is visible and properly formed
+                const gameGrid = document.getElementById('game-grid');
+                if (gameGrid) {
+                    gameGrid.style.display = 'grid';
+                    
+                    // If grid is empty but we have game data, populate it
+                    if (gameGrid.children.length === 0 && window.GameAPI) {
+                        try {
+                            const games = window.GameAPI.getAllGames();
+                            if (games && games.length > 0) {
+                                games.forEach(game => {
+                                    const card = document.createElement('div');
+                                    card.className = 'game-card';
+                                    card.dataset.gameId = game.id;
+                                    card.innerHTML = `
+                                        <div class="game-info">
+                                            <h3 class="game-title">${game.title}</h3>
+                                            <p class="game-description">${game.description}</p>
+                                        </div>
+                                    `;
+                                    gameGrid.appendChild(card);
+                                });
+                            }
+                        } catch (e) {
+                            console.error('Error initializing games:', e);
+                        }
+                    }
+                }
+            }, 2000);
+            
             // Load saved settings if available
             const savedConfig = localStorage.getItem('zarigataConfig');
             if (savedConfig) {

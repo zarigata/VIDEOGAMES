@@ -1,0 +1,165 @@
+/**
+ * ███████╗████████╗ █████╗ ██████╗ ████████╗██╗   ██╗██████╗     ███████╗██╗██╗  ██╗
+ * ██╔════╝╚══██╔══╝██╔══██╗██╔══██╗╚══██╔══╝██║   ██║██╔══██╗    ██╔════╝██║╚██╗██╔╝
+ * ███████╗   ██║   ███████║██████╔╝   ██║   ██║   ██║██████╔╝    █████╗  ██║ ╚███╔╝ 
+ * ╚════██║   ██║   ██╔══██║██╔══██╗   ██║   ██║   ██║██╔═══╝     ██╔══╝  ██║ ██╔██╗ 
+ * ███████║   ██║   ██║  ██║██║  ██║   ██║   ╚██████╔╝██║         ██║     ██║██╔╝ ██╗
+ * ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝         ╚═╝     ╚═╝╚═╝  ╚═╝
+ *
+ * ZARIGATA PORTAL STARTUP FIX - CSS OVERRIDE
+ * fixes animation and display issues with startup sequence
+ */
+
+/* Ensure startup animation works properly */
+.startup-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #121212;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.8s ease-out;
+}
+
+.startup-animation.fade-out {
+    opacity: 0;
+}
+
+.startup-animation .logo-container {
+    width: 200px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.startup-animation .startup-logo {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.startup-animation .startup-progress {
+    width: 200px;
+    height: 10px;
+    background-color: #333;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.startup-animation .progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #8bc34a;
+    transition: width 2.5s linear;
+}
+
+/* Animation for startup text */
+.startup-animation .startup-text {
+    color: #ffffff;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    margin: 5px 0;
+    text-align: center;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+}
+
+/* Make sure the game-grid shows up */
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Make sure game cards are visible */
+.game-card {
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s;
+    cursor: pointer;
+    border: 2px solid #444;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    border-color: #8bc34a;
+}
+
+/* Fix the Snowball Descent start screen */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 10;
+    color: white;
+    font-family: 'Press Start 2P', monospace;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.screen.hidden {
+    display: none;
+}
+
+.title {
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #8bc34a;
+    text-shadow: 0 0 8px rgba(139, 195, 74, 0.7);
+}
+
+.instructions {
+    font-size: 12px;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.controls-info {
+    font-size: 10px;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.game-button {
+    background-color: #8bc34a;
+    color: #000;
+    border: none;
+    padding: 12px 24px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 4px;
+}
+
+.game-button:hover {
+    background-color: #a4d967;
+    transform: scale(1.05);
+}
+
+.game-button:active {
+    transform: scale(0.95);
+}
+
+.final-score,
+.high-score {
+    font-size: 14px;
+    margin: 10px 0;
+}

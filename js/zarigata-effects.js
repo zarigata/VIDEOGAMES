@@ -86,6 +86,35 @@
     function initialize() {
         if (ZarigataEffects.isInitialized) return;
         
+        // Immediate fix - if startup is hung, clear it
+        const startupElement = document.getElementById('zarigata-startup');
+        if (startupElement) {
+            // Force any hung startup to complete
+            const forceComplete = function() {
+                startupElement.style.display = 'none';
+                startupElement.classList.remove('active');
+                startupElement.classList.remove('fade-out');
+                console.log('::ZARIGATA EFFECTS ENGINE:: Forced startup completion');
+                
+                // Initialize game grid
+                setTimeout(() => {
+                    if (typeof initializeGames === 'function') {
+                        initializeGames();
+                    }
+                }, 100);
+            };
+            
+            // Check if startup appears to be hung (been active for a while)
+            if (startupElement.classList.contains('active')) {
+                forceComplete();
+                
+                // Skip the rest of startup since we're forcing completion
+                ZarigataEffects.isInitialized = true;
+                console.log('::ZARIGATA EFFECTS ENGINE:: Fixed hung startup');
+                return;
+            }
+        }
+        
         // Load from localStorage if available
         loadSettings();
         
@@ -101,22 +130,29 @@
         // Initialize sounds
         initSounds();
         
-        // Apply initial effects based on settings
+        // Apply initial effects
         applyEffects();
         
-        // Set up event listeners
+        // Setup event listeners
         setupEventListeners();
         
         // Start battery simulation
         startBatterySimulation();
         
-        // Play startup animation
+        // Play startup animation with shorter timeout
         playStartupAnimation();
         
         // Mark as initialized
         ZarigataEffects.isInitialized = true;
         
-        console.log('::ZARIGATA EFFECTS ENGINE:: Initialization complete');
+        // Force completion after a timeout as a failsafe
+        setTimeout(() => {
+            if (startupElement && startupElement.style.display !== 'none') {
+                forceComplete();
+            }
+        }, 3000);
+        
+        console.log('::ZARIGATA EFFECTS ENGINE:: Initialized successfully with failsafes');
     }
 
     // ===================== ELEMENT CREATION & CACHING =====================
@@ -345,31 +381,114 @@
      * Plays the ZARIGATA startup animation with sound
      */
     function playStartupAnimation() {
-        const startupElement = ZarigataEffects.elements.startupAnimation;
-        if (!startupElement) return;
+        // CODEX CRITICAL BOOT SEQUENCE v2.1 - FORCE DIRECT DISPLAY INJECTION
+        const startupElement = document.getElementById('zarigata-startup');
+        if (!startupElement) {
+            console.error('::ZARIGATA EFFECTS ENGINE:: Startup animation element not found');
+            // Force immediately to game menu if element is missing
+            if (typeof initializeGames === 'function') {
+                initializeGames();
+            }
+            return;
+        }
         
-        // Show and activate the startup animation
+        // OVERRIDE ANY PREVIOUS STATE - force clean start
+        startupElement.classList.remove('fade-out');
+        startupElement.classList.remove('active');
         startupElement.style.display = 'flex';
         
-        // Add 'active' class after a short delay to trigger CSS animations
-        setTimeout(() => {
-            startupElement.classList.add('active');
+        // ENHANCED PROGRESS BAR ANIMATION - ULTRA RELIABLE
+        const progressBar = startupElement.querySelector('.progress-bar');
+        if (progressBar) {
+            progressBar.style.width = '0%';
+            progressBar.style.transition = 'none';
             
-            // Play startup sound
-            playSound('startup');
-            
-            // Set timer to fade out animation
-            ZarigataEffects.timers.startupSequence = setTimeout(() => {
-                startupElement.classList.add('fade-out');
-                
-                // Hide completely after fade animation
-                setTimeout(() => {
-                    startupElement.style.display = 'none';
-                }, 800);
-            }, 3000);
-        }, 100);
+            // Force browser to recognize style change before setting transition
+            setTimeout(() => {
+                progressBar.style.transition = 'width 1.5s linear';
+                progressBar.style.width = '100%';
+            }, 50);
+        }
+
+        // DIRECT ACTIVATION PROTOCOL
+        startupElement.classList.add('active');
         
-        console.log('::ZARIGATA EFFECTS ENGINE:: Startup animation played');
+        // AUDIO FEEDBACK SYSTEM
+        playSound('startup');
+        
+        // ULTRA-SHORT SEQUENCE WITH GUARANTEED COMPLETION
+        // Clear any previous timers to avoid conflicts
+        if (ZarigataEffects.timers.startupSequence) {
+            clearTimeout(ZarigataEffects.timers.startupSequence);
+        }
+        
+        // ACCELERATED FADE SEQUENCE - only 1.5s total animation time
+        ZarigataEffects.timers.startupSequence = setTimeout(() => {
+            startupElement.classList.add('fade-out');
+            
+            // PORTAL ACTIVATION SEQUENCE
+            setTimeout(() => {
+                // FORCE HIDE
+                startupElement.style.display = 'none';
+                startupElement.classList.remove('active');
+                startupElement.classList.remove('fade-out');
+                
+                // PORTAL INITIALIZATION
+                console.log('::ZARIGATA EFFECTS ENGINE:: Startup complete, initializing games');
+                
+                // CRITICAL: Force game grid initialization
+                try {
+                    // Try direct function call first
+                    if (typeof initializeGames === 'function') {
+                        initializeGames();
+                    // Fallback to manual DOM manipulation if needed
+                    } else if (document.getElementById('game-grid')) {
+                        const gameContainer = document.getElementById('game-container');
+                        const gameGrid = document.getElementById('game-grid');
+                        
+                        // Show grid, hide container
+                        if (gameGrid) gameGrid.style.display = 'grid';
+                        if (gameContainer) gameContainer.classList.add('hidden');
+                        
+                        // Try to populate from game data if available
+                        if (window.GameAPI && window.GameAPI.getAllGames) {
+                            const games = window.GameAPI.getAllGames();
+                            if (games && games.length > 0) {
+                                gameGrid.innerHTML = '';
+                                games.forEach(game => {
+                                    const card = document.createElement('div');
+                                    card.className = 'game-card';
+                                    card.innerHTML = `<div class="game-info"><h3>${game.title}</h3></div>`;
+                                    gameGrid.appendChild(card);
+                                });
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.error('::ZARIGATA EFFECTS ENGINE:: Error initializing games:', e);
+                }
+                
+                console.log('::ZARIGATA EFFECTS ENGINE:: Startup animation completed');
+            }, 600); // Faster fade-out completion
+        }, 1500); // Shorter initial display time
+        
+        // TRIPLE FAILSAFE SYSTEM - guarantees completion in max 3 seconds
+        setTimeout(() => {
+            if (startupElement.style.display !== 'none') {
+                startupElement.style.display = 'none';
+                startupElement.classList.remove('active');
+                startupElement.classList.remove('fade-out');
+                
+                // Final attempt to initialize games
+                if (typeof initializeGames === 'function') {
+                    initializeGames();
+                }
+                
+                console.warn('::ZARIGATA EFFECTS ENGINE:: PRIMARY FAILSAFE ACTIVATED');
+            }
+        }, 3000);
+        
+        console.log('::ZARIGATA EFFECTS ENGINE:: Enhanced startup animation activated');
     }
 
     // ===================== FULLSCREEN HANDLING =====================
