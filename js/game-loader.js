@@ -1,13 +1,14 @@
 /* 
  * ===================================================
- * ================ HONEST GAMES PORTAL ==============
- * ======= GAME LOADER / INTERFACE CONTROLLER ========
+ * ================ ZARIGATA RETRO PORTAL ============
+ * ======== GAME LOADER / INTERFACE CONTROLLER =======
  * ===================================================
- * === CODEX v1.0 - Initial Release - May 17, 2025 ===
+ * ======= CODEX v1.0 - ZARI BUILD - MAY 17, 2025 ====
  * ===================================================
  *
- * :: THIS CODE IS NOT OBFUSCATED ::
- * :: BECAUSE WE KEEP EVERYTHING HONEST HERE ::
+ * :: CODE MODULE: GAME_MANAGEMENT_SYSTEM_v3.9b ::
+ * :: ENHANCED FULLSCREEN RENDERER ACTIVE ::
+ * :: SECURITY LEVEL: ZARI_ACCESS_GRANTED ::
  */
 
 /**
@@ -99,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
         iframe.src = game.path;
         iframe.title = game.title;
         iframe.setAttribute('allowfullscreen', '');
+        iframe.allow = 'fullscreen; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
         
         // ==> TRANSITION TO GAME VIEW
         gameFrameContainer.innerHTML = '';
@@ -106,8 +108,25 @@ document.addEventListener('DOMContentLoaded', () => {
         gameGrid.classList.add('hidden');
         gameContainer.classList.remove('hidden');
         
+        // ==> APPLY FULLSCREEN MODE IF ENABLED
+        if (window.GamePortalConfig && window.GamePortalConfig.retro.fullscreenGames) {
+            document.body.classList.add('fullscreen-game');
+            
+            // Request actual fullscreen if supported by browser
+            if (document.documentElement.requestFullscreen) {
+                try {
+                    // Don't wait for this to complete
+                    document.documentElement.requestFullscreen().catch(() => {
+                        console.log('Fullscreen request was denied');
+                    });
+                } catch (error) {
+                    console.log('Fullscreen API not available');
+                }
+            }
+        }
+        
         // ==> LOG GAME LAUNCH
-        console.log(`[GAME LOADER] Launching game: ${game.title} (${game.id})`);
+        console.log(`[ZARI_LOADER] Launching game: ${game.title} (${game.id})`);
     }
     
     /**
@@ -121,8 +140,28 @@ document.addEventListener('DOMContentLoaded', () => {
             gameContainer.classList.add('hidden');
             gameGrid.classList.remove('hidden');
             
+            // Exit fullscreen if active
+            if (document.body.classList.contains('fullscreen-game')) {
+                document.body.classList.remove('fullscreen-game');
+                
+                // Exit browser fullscreen if active
+                if (document.fullscreenElement && document.exitFullscreen) {
+                    document.exitFullscreen().catch(err => {
+                        console.log('Error exiting fullscreen:', err);
+                    });
+                }
+            }
+            
             // Clear iframe to stop game execution
             gameFrameContainer.innerHTML = '';
+        });
+        
+        // ==> HANDLE FULLSCREEN API CHANGES
+        document.addEventListener('fullscreenchange', () => {
+            // If user manually exits fullscreen, update our UI accordingly
+            if (!document.fullscreenElement && document.body.classList.contains('fullscreen-game')) {
+                document.body.classList.remove('fullscreen-game');
+            }
         });
     }
 });

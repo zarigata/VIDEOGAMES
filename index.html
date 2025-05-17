@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameBoy Portal - Authentic Retro Games</title>
+    <title>ZARIGATA - Authentic Retro Games Portal</title>
     <!-- GameBoy-style CSS replaces the old stylesheet -->
     <link rel="stylesheet" href="css/gameboy.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -15,17 +15,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
 <body class="pixelated scanlines gameboy-frame">
-    <!-- GameBoy Startup Animation -->
+    <!-- ZARIGATA Startup Animation -->
     <div id="gameboy-startup">
-        <div class="nintendo-logo">NINTENDO®</div>
-        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" class="startup-logo" alt="GameBoy Logo">
+        <div class="startup-logo">ZARIGATA</div>
+        <div class="dev-credit">by Zari</div>
     </div>
     
     <div class="container">
         <!-- Screen Frame -->
         <div class="screen-frame">
-            <div class="screen-power-text">DOT MATRIX WITH STEREO SOUND</div>
-            <div class="nintendo-text">Nintendo®</div>
+            <div class="screen-power-text">RETRO GAMING EXPERIENCE</div>
+            <div class="brand-text">ZARIGATA</div>
             <div class="battery-indicator">
                 BATT <div class="battery-level"></div>
             </div>
@@ -34,7 +34,7 @@
             <div class="screen-content">
                 <!-- Main Content Area -->
                 <header>
-                    <h1 class="title">GAMEBOY PORTAL</h1>
+                    <h1 class="title">ZARIGATA PORTAL</h1>
                     <p class="tagline">Authentic Retro Games</p>
                 </header>
 
@@ -58,7 +58,7 @@
                 </div>
 
                 <footer>
-                    <p>© 2025 GameBoy</p>
+                    <p>© 2025 ZARIGATA - by Zari</p>
                     <div class="settings-button" id="settings-button">
                         <i class="fas fa-cog"></i> MENU
                     </div>
@@ -140,6 +140,10 @@
                     <div class="setting-item">
                         <label for="startup-anim-toggle">Boot Animation:</label>
                         <input type="checkbox" id="startup-anim-toggle" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label for="fullscreen-toggle">Fullscreen Games:</label>
+                        <input type="checkbox" id="fullscreen-toggle" checked>
                     </div>
                     <div class="setting-item">
                         <label for="preload-assets">Preload Assets:</label>

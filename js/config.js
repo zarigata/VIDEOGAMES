@@ -1,22 +1,23 @@
 /* 
  * ===================================================
- * ================ HONEST GAMES PORTAL ==============
- * ======== 8-BIT NOSTALGIA CONFIGURATION FILE =======
+ * ================ ZARIGATA GAMES PORTAL =============
+ * ========= 8-BIT NOSTALGIA CONFIGURATION FILE ======
  * ===================================================
- * === CODEX v1.0 - GameBoy Edition - May 17, 2025 ===
+ * ===== CODEX v1.0 - MASTER BUILD - May 17, 2025 ====
  * ===================================================
  *
  * .:[ RETRO GAMING MANIFEST CONFIGURATION ]:.  
- * :: This module controls the GameBoy-inspired portal ::
- * :: Adjust settings to tweak your nostalgic experience ::
+ * :: This module controls the ZARIGATA retro experience ::
+ * :: Secret settings to unlock additional features ::
  *
  * .:[ 01010111 01100101 01101100 01100011 01101111 01101101 01100101 ]:.  
+ * .:[ DEVELOPER ACCESS: ZARI - LEVEL 99 ]:.  
  */
 
 const GamePortalConfig = {
     // Portal display settings
     portal: {
-        title: "GAMEBOY PORTAL",
+        title: "ZARIGATA PORTAL",
         tagline: "Authentic Retro Games That Actually Deliver",
         theme: {
             // GameBoy color palette
@@ -29,7 +30,7 @@ const GamePortalConfig = {
             frame: "#8b8b8b",        // GameBoy gray frame
             buttons: "#2f2f2f",      // GameBoy button color
         },
-        footer: "© 2025 GameBoy Portal - Press START to continue",
+        footer: "© 2025 ZARIGATA - Created by Zari - Press START to continue",
         defaultView: "grid",        // 'grid' or 'list'
     },
     
@@ -42,16 +43,17 @@ const GamePortalConfig = {
         startupSound: true,         // Play GameBoy startup sound when loading games
     },
     
-    // GameBoy-specific settings
-    gameboy: {
+    // ZARIGATA system settings
+    retro: {
         pixelEffect: true,          // Show pixel-like grid on screen
         scanlines: true,            // Show scanlines effect
-        frameVisible: true,         // Show the GameBoy frame around the content
+        frameVisible: true,         // Show the ZARIGATA frame around the content
         buttonSounds: true,         // Play button click sounds
         screenGlare: true,          // Add screen glare/reflection effect
         powerLED: true,             // Show power LED indicator
         ghosting: true,             // Screen ghosting/motion blur effect
-        startupAnimation: true,     // Show GameBoy startup animation
+        startupAnimation: true,     // Show ZARIGATA startup animation
+        fullscreenGames: true,      // Launch games in fullscreen mode
     },
 
     // Advanced settings
@@ -68,7 +70,7 @@ const GamePortalConfig = {
      * This method is called when the page loads
      */
     applyConfig: function() {
-        // Apply GameBoy theme colors
+        // Apply ZARIGATA theme colors
         document.documentElement.style.setProperty('--primary-color', this.portal.theme.primary);
         document.documentElement.style.setProperty('--secondary-color', this.portal.theme.secondary);
         document.documentElement.style.setProperty('--highlight-color', this.portal.theme.highlight);
@@ -83,23 +85,24 @@ const GamePortalConfig = {
         document.querySelector('.tagline').textContent = this.portal.tagline;
         document.querySelector('footer p').textContent = this.portal.footer;
         
-        // Apply GameBoy visual effects
-        document.body.classList.toggle('pixelated', this.gameboy.pixelEffect);
-        document.body.classList.toggle('scanlines', this.gameboy.scanlines);
-        document.body.classList.toggle('gameboy-frame', this.gameboy.frameVisible);
-        document.body.classList.toggle('screen-glare', this.gameboy.screenGlare);
-        document.body.classList.toggle('screen-ghosting', this.gameboy.ghosting);
+        // Apply ZARIGATA visual effects
+        document.body.classList.toggle('pixelated', this.retro.pixelEffect);
+        document.body.classList.toggle('scanlines', this.retro.scanlines);
+        document.body.classList.toggle('gameboy-frame', this.retro.frameVisible);
+        document.body.classList.toggle('screen-glare', this.retro.screenGlare);
+        document.body.classList.toggle('screen-ghosting', this.retro.ghosting);
         
         // Update settings toggle states
         if (document.getElementById('pixel-effect-toggle')) {
-            document.getElementById('pixel-effect-toggle').checked = this.gameboy.pixelEffect;
-            document.getElementById('scanlines-toggle').checked = this.gameboy.scanlines;
-            document.getElementById('frame-toggle').checked = this.gameboy.frameVisible;
-            document.getElementById('button-sounds-toggle').checked = this.gameboy.buttonSounds;
-            document.getElementById('screen-glare-toggle').checked = this.gameboy.screenGlare;
-            document.getElementById('ghosting-toggle').checked = this.gameboy.ghosting;
+            document.getElementById('pixel-effect-toggle').checked = this.retro.pixelEffect;
+            document.getElementById('scanlines-toggle').checked = this.retro.scanlines;
+            document.getElementById('frame-toggle').checked = this.retro.frameVisible;
+            document.getElementById('button-sounds-toggle').checked = this.retro.buttonSounds;
+            document.getElementById('screen-glare-toggle').checked = this.retro.screenGlare;
+            document.getElementById('ghosting-toggle').checked = this.retro.ghosting;
             document.getElementById('startup-sound-toggle').checked = this.gameLoader.startupSound;
-            document.getElementById('startup-anim-toggle').checked = this.gameboy.startupAnimation;
+            document.getElementById('startup-anim-toggle').checked = this.retro.startupAnimation;
+            document.getElementById('fullscreen-toggle').checked = this.retro.fullscreenGames;
         }
         
         // Apply other settings
@@ -109,13 +112,18 @@ const GamePortalConfig = {
         }
         
         // Play startup sound if enabled and this is the first load
-        if (this.gameboy.startupAnimation && !window.startupPlayed && document.getElementById('gameboy-startup')) {
+        if (this.retro.startupAnimation && !window.startupPlayed && document.getElementById('gameboy-startup')) {
             window.startupPlayed = true;
             document.getElementById('gameboy-startup').classList.add('show');
             
             // Play startup sound if enabled
             if (this.gameLoader.startupSound && document.getElementById('startup-sound')) {
-                document.getElementById('startup-sound').play();
+                // Try to play sound with user interaction catch
+                try {
+                    document.getElementById('startup-sound').play();
+                } catch (e) {
+                    console.log('Sound autoplay restricted by browser');
+                }
             }
             
             // Hide startup screen after animation
