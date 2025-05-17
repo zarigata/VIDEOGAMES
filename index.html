@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameBoy Portal - Authentic Retro Games</title>
+    <!-- GameBoy-style CSS replaces the old stylesheet -->
+    <link rel="stylesheet" href="css/gameboy.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Font for 8-bit style text -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- Add theme-color for mobile browsers -->
+    <meta name="theme-color" content="#9bbc0f">
+    <!-- Prevent zooming on mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body class="pixelated scanlines gameboy-frame">
+    <!-- GameBoy Startup Animation -->
+    <div id="gameboy-startup">
+        <div class="nintendo-logo">NINTENDO®</div>
+        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" class="startup-logo" alt="GameBoy Logo">
+    </div>
+    
+    <div class="container">
+        <!-- Screen Frame -->
+        <div class="screen-frame">
+            <div class="screen-power-text">DOT MATRIX WITH STEREO SOUND</div>
+            <div class="nintendo-text">Nintendo®</div>
+            <div class="battery-indicator">
+                BATT <div class="battery-level"></div>
+            </div>
+            
+            <!-- Actual Screen Content -->
+            <div class="screen-content">
+                <!-- Main Content Area -->
+                <header>
+                    <h1 class="title">GAMEBOY PORTAL</h1>
+                    <p class="tagline">Authentic Retro Games</p>
+                </header>
+
+                <!-- Game Selection -->
+                <div class="game-grid" id="game-grid">
+                    <!-- Game cards will be dynamically inserted here -->
+                </div>
+                
+                <!-- Alternative List View -->
+                <div class="game-list" id="game-list">
+                    <!-- Game list items will be dynamically inserted here -->
+                </div>
+                
+                <!-- Game Container -->
+                <div id="game-container" class="hidden">
+                    <div class="game-header">
+                        <button id="back-button" class="back-button">←</button>
+                        <h2 id="current-game-title">Game Title</h2>
+                    </div>
+                    <div id="game-frame-container"></div>
+                </div>
+
+                <footer>
+                    <p>© 2025 GameBoy</p>
+                    <div class="settings-button" id="settings-button">
+                        <i class="fas fa-cog"></i> MENU
+                    </div>
+                </footer>
+            </div><!-- End screen-content -->
+        </div><!-- End screen-frame -->
+        
+        <!-- GameBoy Controls -->
+        <div class="dpad-container">
+            <div class="dpad-button dpad-up" id="dpad-up">▲</div>
+            <div class="dpad-button dpad-right" id="dpad-right">▶</div>
+            <div class="dpad-button dpad-down" id="dpad-down">▼</div>
+            <div class="dpad-button dpad-left" id="dpad-left">◀</div>
+            <div class="dpad-button dpad-center"></div>
+        </div>
+        
+        <div class="action-buttons">
+            <div class="action-button action-button-b" id="b-button">B</div>
+            <div class="action-button action-button-a" id="a-button">A</div>
+        </div>
+        
+        <div class="option-buttons">
+            <div class="option-button" id="select-button">SELECT</div>
+            <div class="option-button" id="start-button">START</div>
+        </div>
+    </div>
+    
+    <!-- GameBoy Settings Modal -->
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>GAME OPTIONS</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="setting-group">
+                    <h3>DISPLAY</h3>
+                    <div class="setting-item">
+                        <label for="view-mode">View Mode:</label>
+                        <select id="view-mode">
+                            <option value="grid">Grid View</option>
+                            <option value="list">List View</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="pixel-effect-toggle">Pixel Effect:</label>
+                        <input type="checkbox" id="pixel-effect-toggle" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label for="scanlines-toggle">Scanlines:</label>
+                        <input type="checkbox" id="scanlines-toggle" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label for="frame-toggle">GameBoy Frame:</label>
+                        <input type="checkbox" id="frame-toggle" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label for="screen-glare-toggle">Screen Glare:</label>
+                        <input type="checkbox" id="screen-glare-toggle" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label for="ghosting-toggle">Motion Blur:</label>
+                        <input type="checkbox" id="ghosting-toggle" checked>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h3>AUDIO</h3>
+                    <div class="setting-item">
+                        <label for="button-sounds-toggle">Button Sounds:</label>
+                        <input type="checkbox" id="button-sounds-toggle" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label for="startup-sound-toggle">Startup Sound:</label>
+                        <input type="checkbox" id="startup-sound-toggle" checked>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h3>SYSTEM</h3>
+                    <div class="setting-item">
+                        <label for="startup-anim-toggle">Boot Animation:</label>
+                        <input type="checkbox" id="startup-anim-toggle" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label for="preload-assets">Preload Assets:</label>
+                        <input type="checkbox" id="preload-assets" checked>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="save-settings">SAVE</button>
+                <button id="reset-settings">RESET</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Sound Effects -->
+    <div class="sound-effects">
+        <audio id="button-sound" preload="auto">
+            <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAB5eXl5eHh4eA==" type="audio/wav">
+        </audio>
+        <audio id="startup-sound" preload="auto">
+            <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAB5eXl5eHh4eA==" type="audio/wav">
+        </audio>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/game-data.js"></script>
+    <script src="js/game-loader.js"></script>
+    <script>
+        /* 
+         * ===================================================
+         * ================ GAMEBOY PORTAL ====================
+         * ========== CONTROL SYSTEM AND UI LOGIC ============
+         * ===================================================
+         * === CODEX v1.0 - GAMEBOY EDITION - MAY 17, 2025 ===
+         * ===================================================
+         *
+         * :: 8-BIT NOSTALGIA ENGINE ACTIVATED ::
+         * :: MEMORY BANK 01 LOADED ::
+         * :: READY PLAYER ONE ::
+         */
+        
+        // GameBoy Hardware Controls
+        const dpadUp = document.getElementById('dpad-up');
+        const dpadDown = document.getElementById('dpad-down');
+        const dpadLeft = document.getElementById('dpad-left');
+        const dpadRight = document.getElementById('dpad-right');
+        const buttonA = document.getElementById('a-button');
+        const buttonB = document.getElementById('b-button');
+        const buttonStart = document.getElementById('start-button');
+        const buttonSelect = document.getElementById('select-button');
+        
+        // UI Elements
+        const gameGrid = document.getElementById('game-grid');
+        const gameList = document.getElementById('game-list');
+        const settingsBtn = document.getElementById('settings-button');
+        const settingsModal = document.getElementById('settings-modal');
+        const closeBtn = document.querySelector('.close-btn');
+        const saveBtn = document.getElementById('save-settings');
+        const resetBtn = document.getElementById('reset-settings');
+        
+        // Sound Effects
+        const buttonSound = document.getElementById('button-sound');
+        const startupSound = document.getElementById('startup-sound');
+        
+        // Battery Simulation
+        let batteryLevel = 100;
+        const batteryDisplay = document.querySelector('.battery-level');
+        
+        // Settings Controls
+        const viewModeSelect = document.getElementById('view-mode');
+        const pixelEffectToggle = document.getElementById('pixel-effect-toggle');
+        const scanlinesToggle = document.getElementById('scanlines-toggle');
+        const frameToggle = document.getElementById('frame-toggle');
+        const buttonSoundsToggle = document.getElementById('button-sounds-toggle');
+        const screenGlareToggle = document.getElementById('screen-glare-toggle');
+        const ghostingToggle = document.getElementById('ghosting-toggle');
+        const startupSoundToggle = document.getElementById('startup-sound-toggle');
+        const startupAnimToggle = document.getElementById('startup-anim-toggle');
+        const preloadAssetsCheck = document.getElementById('preload-assets');
+        
+        /**
+         * GAMEBOY BUTTON SOUND EFFECT SYSTEM
+         * Plays the classic "blip" sound when buttons are pressed
+         */
+        function playButtonSound() {
+            if (GamePortalConfig.gameboy.buttonSounds && buttonSound) {
+                // Clone and play to allow rapid succession of sounds
+                const soundClone = buttonSound.cloneNode();
+                soundClone.volume = 0.2;
+                soundClone.play();
+                
+                // Remove after playing to prevent memory leak
+                soundClone.onended = function() {
+                    soundClone.remove();
+                };
+            }
+        }
+        
+        /**
+         * BATTERY SIMULATION
+         * Gradually decreases battery level for realism
+         */
+        function updateBattery() {
+            if (GamePortalConfig.advanced.batterySimulation) {
+                // Decrease battery by 1-3% randomly
+                batteryLevel -= Math.floor(Math.random() * 3) + 1;
+                
+                // Make sure battery doesn't go below 0
+                batteryLevel = Math.max(0, batteryLevel);
+                
+                // Update battery display
+                if (batteryDisplay) {
+                    batteryDisplay.style.setProperty(
+                        '--battery-level', 
+                        `${Math.round((batteryLevel / 100) * 10)}px`
+                    );
+                    
+                    // Change color based on level
+                    if (batteryLevel < 20) {
+                        batteryDisplay.classList.add('battery-critical');
+                    } else if (batteryLevel < 50) {
+                        batteryDisplay.classList.add('battery-low');
+                        batteryDisplay.classList.remove('battery-critical');
+                    } else {
+                        batteryDisplay.classList.remove('battery-low', 'battery-critical');
+                    }
+                }
+            }
+        }
+        
+        /**
+         * INITIALIZE GAMEBOY CONTROLS
+         * Sets up event listeners for the physical buttons
+         */
+        function initControls() {
+            // D-pad controls
+            dpadUp.addEventListener('click', () => {
+                playButtonSound();
+                navigateList(-1);
+            });
+            
+            dpadDown.addEventListener('click', () => {
+                playButtonSound();
+                navigateList(1);
+            });
+            
+            dpadLeft.addEventListener('click', () => {
+                playButtonSound();
+                // Handle left action
+            });
+            
+            dpadRight.addEventListener('click', () => {
+                playButtonSound();
+                // Handle right action
+            });
+            
+            // A button (primary action / select)
+            buttonA.addEventListener('click', () => {
+                playButtonSound();
+                // Select focused game
+                const focused = document.querySelector('.game-card.focused');
+                if (focused) {
+                    focused.click();
+                }
+            });
+            
+            // B button (back / cancel)
+            buttonB.addEventListener('click', () => {
+                playButtonSound();
+                // Back action
+                const backButton = document.getElementById('back-button');
+                if (backButton && getComputedStyle(backButton).display !== 'none') {
+                    backButton.click();
+                }
+            });
+            
+            // Start button (open/close menu)
+            buttonStart.addEventListener('click', () => {
+                playButtonSound();
+                toggleSettingsModal();
+            });
+            
+            // Select button (toggle view)
+            buttonSelect.addEventListener('click', () => {
+                playButtonSound();
+                toggleViewMode();
+            });
+            
+            // Screen UI controls
+            settingsBtn.addEventListener('click', () => {
+                playButtonSound();
+                toggleSettingsModal();
+            });
+            
+            closeBtn.addEventListener('click', () => {
+                playButtonSound();
+                settingsModal.classList.add('hidden');
+            });
+            
+            saveBtn.addEventListener('click', () => {
+                playButtonSound();
+                saveSettings();
+            });
+            
+            resetBtn.addEventListener('click', () => {
+                playButtonSound();
+                resetSettings();
+            });
+        }
+        
+        /**
+         * LIST NAVIGATION SYSTEM
+         * Allows using D-pad to navigate game selection
+         */
+        function navigateList(direction) {
+            // Get all game cards
+            const allGames = document.querySelectorAll('.game-card');
+            if (allGames.length === 0) return;
+            
+            // Find currently focused item
+            let focusedIndex = -1;
+            allGames.forEach((game, index) => {
+                if (game.classList.contains('focused')) {
+                    focusedIndex = index;
+                }
+            });
+            
+            // Remove focus from all items
+            allGames.forEach(game => game.classList.remove('focused'));
+            
+            // Calculate new focused index
+            if (focusedIndex === -1) {
+                // No item focused yet, focus on first
+                focusedIndex = 0;
+            } else {
+                // Move focus in specified direction
+                focusedIndex += direction;
+                
+                // Wrap around if needed
+                if (focusedIndex < 0) focusedIndex = allGames.length - 1;
+                if (focusedIndex >= allGames.length) focusedIndex = 0;
+            }
+            
+            // Add focus to new item
+            allGames[focusedIndex].classList.add('focused');
+            allGames[focusedIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        /**
+         * VIEW MODE TOGGLE
+         * Switches between grid and list views
+         */
+        function toggleViewMode() {
+            const currentMode = viewModeSelect.value;
+            const newMode = currentMode === 'grid' ? 'list' : 'grid';
+            
+            viewModeSelect.value = newMode;
+            if (newMode === 'grid') {
+                document.body.classList.remove('list-view');
+            } else {
+                document.body.classList.add('list-view');
+            }
+            
+            GamePortalConfig.portal.defaultView = newMode;
+        }
+        
+        /**
+         * SETTINGS MODAL TOGGLE
+         * Shows/hides the settings menu
+         */
+        function toggleSettingsModal() {
+            if (settingsModal.classList.contains('hidden')) {
+                settingsModal.classList.remove('hidden');
+            } else {
+                settingsModal.classList.add('hidden');
+            }
+        }
+        
+        /**
+         * SAVE SETTINGS
+         * Updates and persists user settings
+         */
+        function saveSettings() {
+            // Update config with new settings
+            GamePortalConfig.portal.defaultView = viewModeSelect.value;
+            GamePortalConfig.gameboy.pixelEffect = pixelEffectToggle.checked;
+            GamePortalConfig.gameboy.scanlines = scanlinesToggle.checked;
+            GamePortalConfig.gameboy.frameVisible = frameToggle.checked;
+            GamePortalConfig.gameboy.buttonSounds = buttonSoundsToggle.checked;
+            GamePortalConfig.gameboy.screenGlare = screenGlareToggle.checked;
+            GamePortalConfig.gameboy.ghosting = ghostingToggle.checked;
+            GamePortalConfig.gameLoader.startupSound = startupSoundToggle.checked;
+            GamePortalConfig.gameboy.startupAnimation = startupAnimToggle.checked;
+            GamePortalConfig.gameLoader.preloadAssets = preloadAssetsCheck.checked;
+            
+            // Apply new settings
+            GamePortalConfig.applyConfig();
+            
+            // Store settings in local storage
+            localStorage.setItem('gamePortalConfig', JSON.stringify(GamePortalConfig));
+            
+            // Close modal
+            settingsModal.classList.add('hidden');
+        }
+        
+        /**
+         * RESET SETTINGS
+         * Restores default settings
+         */
+        function resetSettings() {
+            // Confirm reset with button sound
+            playButtonSound();
+            
+            // Clear stored settings
+            localStorage.removeItem('gamePortalConfig');
+            
+            // Reload page to reset settings
+            location.reload();
+        }
+        
+        // === INITIALIZE EVERYTHING WHEN DOM IS READY ===
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load saved settings if available
+            const savedConfig = localStorage.getItem('gamePortalConfig');
+            if (savedConfig) {
+                try {
+                    // Merge saved config with default
+                    const parsedConfig = JSON.parse(savedConfig);
+                    
+                    // Deep merge of nested objects
+                    for (const key in parsedConfig) {
+                        if (typeof parsedConfig[key] === 'object' && parsedConfig[key] !== null) {
+                            GamePortalConfig[key] = {...GamePortalConfig[key], ...parsedConfig[key]};
+                        } else {
+                            GamePortalConfig[key] = parsedConfig[key];
+                        }
+                    }
+                    
+                    // Apply loaded config
+                    GamePortalConfig.applyConfig();
+                } catch (error) {
+                    console.error('Error loading config:', error);
+                }
+            }
+            
+            // Setup controls
+            initControls();
+            
+            // Set initial battery level
+            if (batteryDisplay) {
+                batteryDisplay.style.setProperty('--battery-level', '10px');
+            }
+            
+            // Start battery drain simulation
+            if (GamePortalConfig.advanced.batterySimulation) {
+                setInterval(updateBattery, 60000); // Update every minute
+            }
+        });
+        
+        // Add focused class to first game card once games are loaded
+        window.addEventListener('load', () => {
+            const firstGame = document.querySelector('.game-card');
+            if (firstGame) {
+                firstGame.classList.add('focused');
+            }
+        });
+    </script>
+</body>
+</html>

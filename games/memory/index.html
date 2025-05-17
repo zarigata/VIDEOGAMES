@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Match - An Honest Memory Game</title>
+    <style>
+        /* 
+         * ===================================================
+         * ================= MEMORY MATCH GAME ===============
+         * ===== THE HONEST MEMORY GAME - NO FAKE MOVES ======
+         * ===================================================
+         * === CODEX v1.0 - Initial Release - May 17, 2025 ===
+         * ===================================================
+         */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a1a;
+            color: #f0f0f0;
+            padding: 20px;
+        }
+        
+        .game-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: #61dafb;
+            margin-bottom: 10px;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: rgba(97, 218, 251, 0.1);
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 500px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            aspect-ratio: 1;
+            background: linear-gradient(145deg, #182848 0%, #4b6cb7 100%);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .card:hover {
+            box-shadow: 0 6px 12px rgba(97, 218, 251, 0.4);
+        }
+        
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card.matched {
+            transform: rotateY(180deg);
+            background: linear-gradient(145deg, #0a472a 0%, #1a7350 100%);
+            cursor: default;
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .card-front {
+            background: linear-gradient(145deg, #182848 0%, #4b6cb7 100%);
+            transform: rotateY(0deg);
+        }
+        
+        .card-back {
+            background: linear-gradient(145deg, #1a2a6c 0%, #2a4858 100%);
+            transform: rotateY(180deg);
+        }
+        
+        .controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        button {
+            background: #61dafb;
+            color: #0a0a1a;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+        }
+        
+        button:hover {
+            background: #4fa8c7;
+            transform: scale(1.05);
+        }
+        
+        .game-over {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 26, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 10;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .game-over.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .game-over-content {
+            background: #16213e;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            border: 3px solid #61dafb;
+            box-shadow: 0 0 30px rgba(97, 218, 251, 0.7);
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .game-over h2 {
+            font-size: 2.5rem;
+            color: #61dafb;
+            margin-bottom: 20px;
+        }
+        
+        .result-stats {
+            margin: 20px 0;
+            font-size: 1.2rem;
+        }
+        
+        @media (max-width: 500px) {
+            .memory-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-header">
+        <h1>Memory Match</h1>
+        <div class="stats">
+            <div>Moves: <span id="moves">0</span></div>
+            <div>Pairs: <span id="pairs">0</span> / <span id="total-pairs">8</span></div>
+            <div>Time: <span id="timer">00:00</span></div>
+        </div>
+    </div>
+    
+    <div class="memory-grid" id="memory-grid">
+        <!-- Cards will be dynamically inserted here -->
+    </div>
+    
+    <div class="controls">
+        <button id="new-game-btn">New Game</button>
+        <button id="difficulty-btn">Change Difficulty</button>
+    </div>
+    
+    <div class="game-over" id="game-over">
+        <div class="game-over-content">
+            <h2>Game Complete!</h2>
+            <div class="result-stats">
+                <p>You matched all pairs!</p>
+                <p>Moves: <span id="result-moves">0</span></p>
+                <p>Time: <span id="result-time">00:00</span></p>
+            </div>
+            <button id="play-again-btn">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        /* 
+         * ===================================================
+         * ================ MEMORY MATCH GAME ===============
+         * ======== HONEST GAMEPLAY IMPLEMENTATION ==========
+         * ===================================================
+         * === CODEX v1.0 - Initial Release - May 17, 2025 ===
+         * ===================================================
+         *
+         * :: PURE JAVASCRIPT IMPLEMENTATION ::
+         * :: NO TRICKY CODE - JUST HONEST MEMORY GAME ::
+         */
+        
+        // ===== GAME ELEMENTS & STATE =====
+        const grid = document.getElementById('memory-grid');
+        const movesDisplay = document.getElementById('moves');
+        const pairsDisplay = document.getElementById('pairs');
+        const totalPairsDisplay = document.getElementById('total-pairs');
+        const timerDisplay = document.getElementById('timer');
+        const newGameBtn = document.getElementById('new-game-btn');
+        const difficultyBtn = document.getElementById('difficulty-btn');
+        const gameOverScreen = document.getElementById('game-over');
+        const resultMovesDisplay = document.getElementById('result-moves');
+        const resultTimeDisplay = document.getElementById('result-time');
+        const playAgainBtn = document.getElementById('play-again-btn');
+        
+        // Game state variables
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let totalPairs = 8; // Default
+        let moves = 0;
+        let gameActive = false;
+        let timer = 0;
+        let timerInterval;
+        let difficulty = 'medium'; // Default: easy (4x3), medium (4x4), hard (5x4)
+        
+        /**
+         * EMOJI DECK GENERATOR
+         * Creates pairs of emoji cards for gameplay
+         */
+        function generateDeck() {
+            // Define emoji sets based on difficulty
+            const emojiSets = {
+                'easy': ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊'],
+                'medium': ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐼', '🐨'],
+                'hard': ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐼', '🐨', '🐯', '🦁'],
+            };
+            
+            // Get emoji set based on difficulty
+            const emojis = emojiSets[difficulty];
+            totalPairs = emojis.length;
+            totalPairsDisplay.textContent = totalPairs;
+            
+            // Create pairs
+            const deck = [...emojis, ...emojis];
+            
+            // Shuffle the deck using Fisher-Yates algorithm
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+            
+            return deck;
+        }
+        
+        /**
+         * CARD CREATION SYSTEM
+         * Generates the DOM elements for the memory cards
+         * @param {Array} deck - Array of shuffled card values
+         */
+        function createCards(deck) {
+            grid.innerHTML = '';
+            cards = [];
+            
+            // Set grid columns based on difficulty
+            const gridColumns = {
+                'easy': 'repeat(4, 1fr)',
+                'medium': 'repeat(4, 1fr)',
+                'hard': 'repeat(5, 1fr)'
+            };
+            
+            grid.style.gridTemplateColumns = gridColumns[difficulty];
+            
+            // Create card elements
+            deck.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.index = index;
+                card.dataset.value = emoji;
+                
+                // Create card front (back side when not flipped)
+                const cardFront = document.createElement('div');
+                cardFront.className = 'card-front';
+                cardFront.innerHTML = '❓';
+                
+                // Create card back (face side when flipped)
+                const cardBack = document.createElement('div');
+                cardBack.className = 'card-back';
+                cardBack.innerHTML = emoji;
+                
+                // Append card sides
+                card.appendChild(cardFront);
+                card.appendChild(cardBack);
+                
+                // Add click event
+                card.addEventListener('click', flipCard);
+                
+                // Add to grid and cards array
+                grid.appendChild(card);
+                cards.push(card);
+            });
+        }
+        
+        /**
+         * CARD FLIP HANDLER
+         * Manages card flipping logic and game state
+         */
+        function flipCard() {
+            // Ignore if game not active
+            if (!gameActive) return;
+            
+            const card = this;
+            
+            // Ignore if card is already flipped or matched
+            if (card.classList.contains('flipped') || card.classList.contains('matched')) {
+                return;
+            }
+            
+            // Ignore if two cards are already flipped
+            if (flippedCards.length === 2) {
+                return;
+            }
+            
+            // Flip the card
+            card.classList.add('flipped');
+            flippedCards.push(card);
+            
+            // Check for match if two cards are flipped
+            if (flippedCards.length === 2) {
+                moves++;
+                movesDisplay.textContent = moves;
+                
+                // Check if cards match
+                if (flippedCards[0].dataset.value === flippedCards[1].dataset.value) {
+                    matchedPairs++;
+                    pairsDisplay.textContent = matchedPairs;
+                    
+                    // Mark cards as matched
+                    flippedCards.forEach(card => {
+                        card.classList.add('matched');
+                        card.removeEventListener('click', flipCard);
+                    });
+                    
+                    // Clear flipped cards array
+                    flippedCards = [];
+                    
+                    // Check for game completion
+                    if (matchedPairs === totalPairs) {
+                        gameOver();
+                    }
+                } else {
+                    // If no match, flip cards back after delay
+                    setTimeout(() => {
+                        flippedCards.forEach(card => {
+                            card.classList.remove('flipped');
+                        });
+                        flippedCards = [];
+                    }, 1000);
+                }
+            }
+        }
+        
+        /**
+         * GAME INITIALIZATION
+         * Sets up a new game with reset state
+         */
+        function initGame() {
+            // Reset game state
+            flippedCards = [];
+            matchedPairs = 0;
+            moves = 0;
+            timer = 0;
+            gameActive = true;
+            
+            // Update displays
+            movesDisplay.textContent = moves;
+            pairsDisplay.textContent = matchedPairs;
+            timerDisplay.textContent = formatTime(timer);
+            
+            // Generate and create cards
+            const deck = generateDeck();
+            createCards(deck);
+            
+            // Hide game over screen
+            gameOverScreen.classList.remove('show');
+            
+            // Start timer
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timer++;
+                timerDisplay.textContent = formatTime(timer);
+            }, 1000);
+        }
+        
+        /**
+         * GAME COMPLETION HANDLER
+         * Manages end of game state and displays results
+         */
+        function gameOver() {
+            gameActive = false;
+            clearInterval(timerInterval);
+            
+            // Update result displays
+            resultMovesDisplay.textContent = moves;
+            resultTimeDisplay.textContent = formatTime(timer);
+            
+            // Show game over screen with delay
+            setTimeout(() => {
+                gameOverScreen.classList.add('show');
+            }, 500);
+        }
+        
+        /**
+         * TIME FORMATTER
+         * Converts seconds to MM:SS format
+         */
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const secs = (seconds % 60).toString().padStart(2, '0');
+            return `${mins}:${secs}`;
+        }
+        
+        /**
+         * DIFFICULTY CYCLE HANDLER
+         * Cycles through game difficulty levels
+         */
+        function cycleDifficulty() {
+            const difficulties = ['easy', 'medium', 'hard'];
+            const currentIndex = difficulties.indexOf(difficulty);
+            difficulty = difficulties[(currentIndex + 1) % difficulties.length];
+            
+            // Update button text
+            difficultyBtn.textContent = `Difficulty: ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}`;
+            
+            // Restart game with new difficulty
+            initGame();
+        }
+        
+        // ===== EVENT LISTENERS =====
+        newGameBtn.addEventListener('click', initGame);
+        difficultyBtn.addEventListener('click', cycleDifficulty);
+        playAgainBtn.addEventListener('click', initGame);
+        
+        // ===== INITIAL SETUP =====
+        difficultyBtn.textContent = `Difficulty: ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}`;
+        initGame();
+    </script>
+</body>
+</html>
