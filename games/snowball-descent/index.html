@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnowBall Descent - ZARIGATA</title>
+    <style>
+        /* 
+         * =========================================================
+         * ██████╗ ███╗   ██╗ ██████╗ ██╗    ██╗██████╗  █████╗ ██╗     ██╗     
+         * ██╔════╝ ████╗  ██║██╔═══██╗██║    ██║██╔══██╗██╔══██╗██║     ██║     
+         * ╚█████╗  ██╔██╗ ██║██║   ██║██║ █╗ ██║██████╔╝███████║██║     ██║     
+         * ╠═══██╗  ██║╚██╗██║██║   ██║██║███╗██║██╔══██╗██╔══██║██║     ██║     
+         * ██████╔╝ ██║ ╚████║╚██████╔╝╚███╔███╔╝██████╔╝██║  ██║███████╗███████╗
+         * ╚═════╝  ╚═╝  ╚═══╝ ╚═════╝  ╚══╝╚══╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
+         * =========================================================
+         * ZARIGATA CODEX v2.3.7 || DESCNT.NVR || VECTOR EDITION
+         * =========================================================
+         * ::ID::          [X299-VEC2-DESCENT-ZERO]
+         * ::RELEASE::     [ZARIGATA PREMIUM VECTOR COLLECTION]
+         * ::REVISION::    [17/05/2025-ECX4]
+         * ::VERIFIED::    [ZARI-UNIT-X99]
+         */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0f380f;
+            overflow: hidden;
+            font-family: 'Press Start 2P', monospace;
+            color: #8bac0f;
+        }
+        
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        canvas {
+            background-color: #0f380f;
+            border: 2px solid #306230;
+            box-shadow: 0 0 10px rgba(139, 172, 15, 0.3);
+            display: block;
+            image-rendering: pixelated;
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .game-ui {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            padding: 8px;
+            background-color: rgba(15, 56, 15, 0.8);
+            border: 1px solid #306230;
+            font-size: 10px;
+            min-width: 150px;
+        }
+        
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(15, 56, 15, 0.9);
+            border: 2px solid #8bac0f;
+            padding: 20px;
+            text-align: center;
+            display: none;
+            z-index: 100;
+        }
+        
+        button {
+            background-color: #306230;
+            color: #8bac0f;
+            border: none;
+            padding: 8px 16px;
+            margin-top: 12px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #8bac0f;
+            color: #0f380f;
+        }
+        
+        .controls-info {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 8px;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 640px) {
+            canvas {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas" width="640" height="480"></canvas>
+        <div class="game-ui">
+            <div>SCORE: <span id="score">0</span></div>
+            <div>SIZE: <span id="size">1.0</span></div>
+            <div>SPEED: <span id="speed">0</span></div>
+        </div>
+        <div class="controls-info">
+            ← → to steer | ↑ to boost | ↓ to brake
+        </div>
+        <div class="game-over" id="game-over">
+            <h2>GAME OVER</h2>
+            <div>FINAL SCORE: <span id="final-score">0</span></div>
+            <div>MAX SIZE: <span id="max-size">0</span></div>
+            <button id="restart-button">PLAY AGAIN</button>
+        </div>
+    </div>
+
+    <script>
+        /* 
+         * =========================================================
+         * SNOWBALL DESCENT - VECTOR EDITION
+         * =========================================================
+         * ::ENGINE::  [ZARIGATA VECTOR CORE v5.8.2]
+         * ::ACCESS::  [AUTHORIZED - ZARI UNIT X99]
+         * =========================================================
+         *
+         * SNOWBALL DESCENT is a ZARIGATA PREMIUM TITLE
+         * featuring pure vector-based rendering with no external assets
+         * 
+         * ::CREATOR NOTES::
+         * "I wanted to capture the feeling of gaining momentum
+         * while maintaining precise control over chaos. The vector
+         * aesthetic creates that perfect blend of minimalism and
+         * challenge that defines classic gaming."
+         *                   - Lead Developer, ZARI UNIT X99
+         */
+        
+        // Core Game Constants and Configuration
+        const GAME_CONFIG = {
+            // Vector color palette (ZARIGATA classic theme)
+            COLORS: {
+                BACKGROUND: '#0f380f',     // Dark green background
+                SNOWBALL: '#9bbc0f',       // Light green for snowball
+                SNOW_PARTICLE: '#e0f8cf',  // White-green for snow particles
+                HILL: '#306230',           // Medium green for hill/terrain
+                OBSTACLE: '#8b3f0f',       // Brown for obstacles
+                TEXT: '#8bac0f',           // ZARIGATA text color
+                UI_BACKGROUND: 'rgba(15, 56, 15, 0.8)', // UI background
+                BOOST: '#91ffe4',          // Boost effect color
+                TRAIL: 'rgba(155, 188, 15, 0.2)' // Snowball trail
+            },
+            
+            // Physics settings
+            PHYSICS: {
+                GRAVITY: 0.15,             // Downhill gravity force
+                FRICTION: 0.98,            // Surface friction
+                MAX_SPEED: 8,              // Maximum downhill speed
+                TURN_SPEED: 0.08,          // Turning speed multiplier
+                BOOST_POWER: 1.5,          // Boost power multiplier
+                BRAKE_POWER: 0.93,         // Braking power (< 1.0)
+                COLLISION_DAMAGE: 0.85,    // Collision damage multiplier (size reduction)
+                MIN_SIZE: 0.5,             // Minimum ball size before game over
+                GROWTH_RATE: 0.002         // Growth rate per snow particle
+            },
+            
+            // Terrain generation
+            TERRAIN: {
+                HILL_HEIGHT: 160,          // Base hill height
+                VARIATION: 50,             // Height variation
+                SEGMENT_WIDTH: 20,         // Width of terrain segments
+                SLOPE_SMOOTHNESS: 8,       // Higher = smoother slopes
+                SNOW_DENSITY: 0.07,        // Snow particle density (0-1)
+                OBSTACLE_DENSITY: 0.02,    // Obstacle density (0-1)
+                OBSTACLE_TYPES: [
+                    { name: 'rock', sizeRange: [10, 25], damage: [0.1, 0.25] },
+                    { name: 'tree', sizeRange: [15, 35], damage: [0.15, 0.3] },
+                    { name: 'house', sizeRange: [30, 50], damage: [0.2, 0.4] }
+                ]
+            },
+            
+            // Game rules
+            RULES: {
+                STARTING_SIZE: 1.0,        // Starting snowball size
+                POINTS_PER_SNOW: 10,       // Points per snow particle
+                POINTS_PER_SECOND: 1,      // Points per second of survival
+                GAME_SPEED_INCREASE: 1.0001 // Speed increases over time
+            }
+        };
+    </script>
+</body>
+</html>

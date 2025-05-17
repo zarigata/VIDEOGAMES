@@ -1,0 +1,1159 @@
+/* 
+ * ===================================================
+ * ================ ZARIGATA PORTAL ===================
+ * =========== PREMIUM RETRO EXPERIENCE CSS ===========
+ * ===================================================
+ * === CODEX v1.0 - ZARI PREMIUM BUILD - MAY 17, 2025 =
+ * ===================================================
+ *
+ * :: ACCESS GRANTED TO ZARI DEVELOPMENT UNIT X99 ::
+ * :: ENHANCED EFFECTS MODULE ACTIVATED ::
+ * :: WAVE ANIMATION SUBSYSTEM ENGAGED ::
+ * :: FULLSCREEN RENDERER INITIALIZED ::
+ */
+
+/* === CSS Variables - ZARIGATA Premium Color Palette === */
+:root {
+    /* Core palette */
+    --primary-color: #0f380f;      /* ZARIGATA dark green */
+    --secondary-color: #306230;    /* ZARIGATA medium green */
+    --highlight-color: #8bac0f;    /* ZARIGATA light green */
+    --background-color: #9bbc0f;   /* ZARIGATA pale green (screen bg) */
+    --text-dark: #0f380f;          /* ZARIGATA dark text */
+    --text-light: #306230;         /* ZARIGATA medium text */
+    --frame-color: #8b8b8b;        /* ZARIGATA frame color */
+    --button-color: #2f2f2f;       /* ZARIGATA button color */
+    --frame-shadow: #5a5a5a;       /* ZARIGATA frame shadow */
+    --frame-light: #cfcfcf;        /* ZARIGATA frame highlight */
+    --red-button: #fe0100;         /* Power LED color */
+    --shadow-depth: rgba(0,0,0,0.5); /* Shadow depth level */
+    
+    /* Premium effects */
+    --wave-color-1: rgba(15, 56, 15, 0.7);
+    --wave-color-2: rgba(48, 98, 48, 0.5);
+    --wave-color-3: rgba(139, 172, 15, 0.3);
+    --glow-intensity: 15px;
+    --premium-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    
+    /* Transition timing */
+    --pixel-transition: 50ms;      /* Pixelated effect for button presses */
+    --screen-transition: 500ms;    /* Slow LCD screen transitions */
+    --wave-duration-1: 15s;
+    --wave-duration-2: 20s;
+    --wave-duration-3: 25s;
+    
+    /* Sizing variables */
+    --pixel-size: 2px;            /* Size of the "pixels" */
+    --scanline-height: 2px;       /* Height of scanlines */
+    --border-radius: 10px;        /* Consistent border radius */
+}
+
+/* === GLOBAL RESET AND BASE STYLES === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* === Import 8-bit style font === */
+@font-face {
+    font-family: 'PressStart2P';
+    src: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+}
+
+/* === SCROLLBAR CUSTOMIZATION === */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--frame-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Fix compatibility for Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) var(--frame-color);
+}
+
+/* === BASE BODY STYLING === */
+body {
+    font-family: 'Press Start 2P', monospace, 'Courier New', Courier;
+    background-color: #333;
+    color: var(--text-dark);
+    line-height: 1.5;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* === Premium Wave Animations === */
+.wave-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    opacity: 0.8;
+}
+
+.wave {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    border-radius: 40%;
+}
+
+.wave1 {
+    background-color: var(--wave-color-1);
+    bottom: -50%;
+    left: -50%;
+    animation: wave var(--wave-duration-1) infinite linear;
+}
+
+.wave2 {
+    background-color: var(--wave-color-2);
+    bottom: -60%;
+    left: -40%;
+    animation: wave var(--wave-duration-2) infinite linear;
+    animation-delay: -5s;
+}
+
+.wave3 {
+    background-color: var(--wave-color-3);
+    bottom: -70%;
+    left: -45%;
+    animation: wave var(--wave-duration-3) infinite linear;
+    animation-delay: -10s;
+}
+
+@keyframes wave {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==== ZARIGATA CONSOLE FRAME ==== */
+body.zarigata-frame {
+    background-color: #333;
+    padding: 50px;
+}
+
+body.zarigata-frame .container {
+    position: relative;
+    background-color: var(--frame-color);
+    border-radius: 15px 15px 60px 15px;
+    box-shadow: 
+        -8px -8px 0 var(--frame-shadow),
+        8px 12px 0 rgba(0,0,0,0.3),
+        0 0 25px rgba(0,0,0,0.5);
+    padding: 50px 25px 80px 25px;
+    max-width: 100%;
+    width: 480px;
+    margin: 0 auto;
+    transform: scale(0.95);
+    transition: transform 200ms ease;
+}
+
+body.zarigata-frame .container:hover {
+    transform: scale(0.97);
+    box-shadow: 
+        -8px -8px 0 var(--frame-shadow),
+        8px 12px 0 rgba(0,0,0,0.3),
+        0 0 35px rgba(0,0,0,0.6);
+}
+
+/* Power LED - enhanced glow */
+body.zarigata-frame .container::before {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--red-button);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--red-button), 0 0 15px rgba(254, 1, 0, 0.4);
+    opacity: 0.85;
+    animation: pulseLED 4s infinite alternate;
+}
+
+@keyframes pulseLED {
+    0% { opacity: 0.7; transform: scale(0.95); }
+    50% { opacity: 0.9; transform: scale(1.05); }
+    100% { opacity: 0.7; transform: scale(0.95); }
+}
+
+/* ZARIGATA label */
+body.zarigata-frame .container::after {
+    content: "ZARIGATA";
+    position: absolute;
+    bottom: 25px;
+    right: 50%;
+    transform: translateX(50%);
+    font-family: "Gill Sans", sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: rgba(0,0,0,0.7);
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
+}
+
+/* D-PAD and buttons */
+.dpad-container {
+    position: absolute;
+    bottom: 110px;
+    left: 40px;
+    width: 80px;
+    height: 80px;
+}
+
+.dpad-button {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background-color: var(--button-color);
+    color: rgba(255,255,255,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 100ms ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.dpad-center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: transparent;
+    z-index: 0;
+}
+
+.dpad-up {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.dpad-right {
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.dpad-down {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.dpad-left {
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.dpad-button:active {
+    transform: scale(0.9) translateX(-50%);
+    filter: brightness(0.8);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+
+.dpad-right:active, .dpad-left:active {
+    transform: scale(0.9) translateY(-50%);
+}
+
+.action-buttons {
+    position: absolute;
+    bottom: 115px;
+    right: 40px;
+    display: flex;
+    gap: 20px;
+}
+
+.action-button {
+    width: 25px;
+    height: 25px;
+    background-color: var(--button-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    user-select: none;
+    transform: rotate(-30deg);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    transition: all 100ms ease;
+}
+
+.action-button:hover {
+    box-shadow: 0 3px 7px rgba(0,0,0,0.5);
+    transform: rotate(-30deg) scale(1.05);
+    color: rgba(255,255,255,0.9);
+}
+
+.action-button:active {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    transform: rotate(-30deg) scale(0.95);
+    color: rgba(255,255,255,1);
+}
+
+.action-button-b { margin-top: 10px; }
+.action-button-a { margin-top: -10px; }
+
+.option-buttons {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 80px;
+}
+
+.option-button {
+    width: 40px;
+    height: 10px;
+    background-color: var(--button-color);
+    border-radius: 5px;
+    transform: rotate(-25deg);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 8px;
+    color: rgba(255,255,255,0.7);
+    user-select: none;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.3);
+    transition: all 100ms ease;
+}
+
+.option-button:hover {
+    box-shadow: 0 3px 5px rgba(0,0,0,0.4);
+    color: rgba(255,255,255,0.9);
+}
+
+.option-button:active {
+    transform: rotate(-25deg) scale(0.95);
+    filter: brightness(0.8);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Screen frame with enhanced elements */
+.screen-frame {
+    position: relative;
+    background-color: var(--button-color);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 80px;
+    width: 100%;
+    border: 1px solid var(--frame-shadow);
+    box-shadow: 
+        inset 0 0 10px rgba(0,0,0,0.5),
+        0 5px 15px rgba(0,0,0,0.3);
+}
+
+.screen-power-text {
+    position: absolute;
+    top: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 6px;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+}
+
+.brand-text {
+    position: absolute;
+    top: 6px;
+    right: 20px;
+    font-size: 6px;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+}
+
+/* Battery indicator with premium animation */
+.battery-indicator {
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    font-size: 6px;
+    color: rgba(255,255,255,0.6);
+    display: flex;
+    align-items: center;
+}
+
+.battery-level {
+    width: 12px;
+    height: 6px;
+    border: 1px solid rgba(255,255,255,0.6);
+    margin-left: 3px;
+    position: relative;
+    overflow: hidden;
+}
+
+.battery-level::before {
+    content: "";
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    height: 2px;
+    width: 8px; /* Will be updated by JS */
+    background-color: var(--red-button);
+    animation: batteryPulse 2s infinite alternate;
+}
+
+@keyframes batteryPulse {
+    0% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.battery-level::after {
+    content: "";
+    position: absolute;
+    right: -3px;
+    top: 1px;
+    height: 2px;
+    width: 1px;
+    background-color: rgba(255,255,255,0.6);
+}
+
+/* ZARIGATA screen with enhanced effects */
+.screen-content {
+    position: relative;
+    background-color: var(--background-color);
+    border-radius: 4px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.2);
+}
+
+/* Enhanced pixelation effect */
+body.pixelated .screen-content {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+body.pixelated .screen-content::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+    background-size: var(--pixel-size) var(--pixel-size);
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Enhanced scanlines effect - more premium */
+body.scanlines .screen-content::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.03),
+        rgba(0,0,0,0.03) var(--scanline-height),
+        transparent var(--scanline-height),
+        transparent calc(var(--scanline-height) * 2)
+    );
+    z-index: 20;
+    pointer-events: none;
+}
+
+/* Premium screen glare effect with animated subtle movement */
+body.screen-glare .screen-content::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: 
+        radial-gradient(
+            ellipse at 30% 30%,
+            rgba(255,255,255,0.05) 0%,
+            rgba(255,255,255,0.05) 40%,
+            transparent 65%
+        );
+    pointer-events: none;
+    z-index: 30;
+    opacity: 0.7;
+    animation: moveGlare 20s infinite alternate ease-in-out;
+}
+
+@keyframes moveGlare {
+    0% { transform: translateX(-10px) translateY(-5px); }
+    25% { transform: translateX(0) translateY(-8px); }
+    50% { transform: translateX(5px) translateY(0); }
+    75% { transform: translateX(0) translateY(5px); }
+    100% { transform: translateX(-5px) translateY(0); }
+}
+
+/* Screen motion blur/ghosting effect - enhanced with subtle trailing */
+body.screen-ghosting .game-card,
+body.screen-ghosting .back-button,
+body.screen-ghosting .settings-button,
+body.screen-ghosting .title {
+    transition: all 200ms cubic-bezier(0.1, 0.7, 0.1, 1) !important;
+}
+
+body.screen-ghosting .game-card:hover,
+body.screen-ghosting .back-button:hover,
+body.screen-ghosting .settings-button:hover {
+    opacity: 0.9;
+    filter: saturate(1.2) blur(0.3px);
+}
+
+/* =================== CONTENT STYLING =================== */
+/* === TITLE STYLES === */
+.title {
+    margin: 15px 0;
+    text-align: center;
+    padding: 10px;
+    font-size: 16px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+    color: var(--text-dark);
+    letter-spacing: -0.5px;
+    position: relative;
+}
+
+.title::after {
+    content: "";
+    position: absolute;
+    left: 25%;
+    bottom: 0;
+    width: 50%;
+    height: 2px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        var(--secondary-color),
+        transparent
+    );
+}
+
+/* === GAME SELECTION GRID === */
+.game-selection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 15px;
+    padding: 20px 10px;
+    justify-content: center;
+    max-height: 300px;
+    overflow-y: auto;
+    position: relative;
+}
+
+/* Vintage line separator */
+.vintage-separator {
+    width: 80%;
+    height: 1px;
+    margin: 10px auto;
+    background: linear-gradient(
+        to right,
+        transparent,
+        var(--text-light),
+        transparent
+    );
+    opacity: 0.4;
+}
+
+/* Premium styled game cards */
+.game-card {
+    position: relative;
+    background-color: var(--secondary-color);
+    border-radius: var(--border-radius);
+    padding: 15px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 150ms ease-out;
+    box-shadow: 
+        0 4px 8px rgba(0,0,0,0.2),
+        inset 0 1px 3px rgba(255,255,255,0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
+    background: radial-gradient(
+        circle at center,
+        rgba(255,255,255,0.1) 0%,
+        transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 300ms ease;
+}
+
+.game-card:hover::before {
+    opacity: 1;
+}
+
+.game-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 6px 12px rgba(0,0,0,0.3),
+        inset 0 1px 3px rgba(255,255,255,0.3);
+    background-color: var(--highlight-color);
+}
+
+.game-card:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.game-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 10px;
+    image-rendering: pixelated;
+    transition: transform 150ms ease;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+}
+
+.game-card:hover .game-icon {
+    transform: scale(1.05);
+}
+
+.game-title {
+    font-size: 10px;
+    color: var(--text-dark);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.3;
+}
+
+/* === GAME SCREEN === */
+.game-screen {
+    display: none;
+    width: 100%;
+    height: 300px;
+    position: relative;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.game-iframe {
+    border: none;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-color);
+}
+
+/* Navigation and control buttons */
+.back-button,
+.settings-button {
+    position: absolute;
+    bottom: 10px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--secondary-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 150ms ease;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    color: var(--text-dark);
+}
+
+.back-button {
+    left: 10px;
+}
+
+.settings-button {
+    right: 10px;
+}
+
+.back-button:hover,
+.settings-button:hover {
+    background-color: var(--highlight-color);
+    transform: scale(1.1);
+    box-shadow: 0 3px 7px rgba(0,0,0,0.4);
+}
+
+.back-button:active,
+.settings-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* === FULLSCREEN MODE === */
+.fullscreen-game {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 10000 !important;
+    background-color: var(--background-color) !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    transition: all 300ms ease-in-out !important;
+}
+
+.fullscreen-game .game-iframe {
+    width: 100vw;
+    height: 100vh;
+}
+
+.fullscreen-game .back-button,
+.fullscreen-game .settings-button {
+    bottom: 20px;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    opacity: 0.8;
+    z-index: 10001;
+}
+
+.fullscreen-game .back-button {
+    left: 20px;
+}
+
+.fullscreen-game .settings-button {
+    right: 20px;
+}
+
+.fullscreen-game .back-button:hover,
+.fullscreen-game .settings-button:hover {
+    opacity: 1;
+}
+
+/* Transition for entering/exiting fullscreen */
+@keyframes enterFullscreen {
+    from { transform: scale(0.9); opacity: 0.9; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes exitFullscreen {
+    from { transform: scale(1.1); opacity: 0.9; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.entering-fullscreen {
+    animation: enterFullscreen 300ms ease-out forwards;
+}
+
+.exiting-fullscreen {
+    animation: exitFullscreen 300ms ease-out forwards;
+}
+
+/* === SETTINGS MODAL === */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.settings-modal {
+    position: relative;
+    width: 85%;
+    max-width: 320px;
+    background-color: var(--frame-color);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 300ms ease;
+    border: 2px solid var(--button-color);
+}
+
+.modal-overlay.active .settings-modal {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.settings-modal::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255,255,255,0.1),
+        transparent
+    );
+    z-index: -1;
+    border-radius: calc(var(--border-radius) + 5px);
+    pointer-events: none;
+}
+
+.settings-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+    font-size: 14px;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.1);
+    position: relative;
+}
+
+.settings-title::after {
+    content: "";
+    position: absolute;
+    left: 25%;
+    bottom: -5px;
+    width: 50%;
+    height: 2px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        var(--highlight-color),
+        transparent
+    );
+}
+
+.settings-option {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.option-label {
+    font-size: 10px;
+    color: var(--text-dark);
+}
+
+.toggle-switch {
+    position: relative;
+    width: 40px;
+    height: 20px;
+}
+
+.toggle-checkbox {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--button-color);
+    transition: 300ms;
+    border-radius: 20px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.4);
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: var(--frame-light);
+    transition: 300ms;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.toggle-checkbox:checked + .toggle-slider {
+    background-color: var(--highlight-color);
+}
+
+.toggle-checkbox:checked + .toggle-slider:before {
+    transform: translateX(20px);
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--text-dark);
+    transition: all 150ms ease;
+}
+
+.close-modal:hover {
+    transform: scale(1.1);
+    color: var(--highlight-color);
+}
+
+/* === FOOTER === */
+.footer {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 8px;
+    color: var(--text-light);
+    opacity: 0.7;
+    padding: 5px 0;
+}
+
+/* === STARTUP ANIMATION === */
+.startup-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--text-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 20000;
+    opacity: 1;
+    transition: opacity 800ms ease;
+}
+
+.logo-container {
+    position: relative;
+    width: 80%;
+    max-width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.startup-logo {
+    width: 100%;
+    height: auto;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 1000ms ease;
+}
+
+.startup-animation.active .startup-logo {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.startup-text {
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--highlight-color);
+    text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 800ms ease;
+    transition-delay: 500ms;
+}
+
+.startup-animation.active .startup-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.startup-progress {
+    margin-top: 30px;
+    width: 80%;
+    max-width: 200px;
+    height: 5px;
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: var(--highlight-color);
+    width: 0;
+    transition: width 1500ms ease-in-out;
+}
+
+.startup-animation.active .progress-bar {
+    width: 100%;
+}
+
+.startup-animation.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* === RESPONSIVE DESIGN === */
+/* Mobile - Small */
+@media screen and (max-width: 375px) {
+    body.zarigata-frame .container {
+        width: 300px;
+        padding: 40px 15px 70px 15px;
+        transform: scale(0.95);
+    }
+    
+    .screen-content {
+        height: 200px;
+    }
+    
+    .game-selection {
+        grid-template-columns: repeat(2, 1fr);
+        max-height: 250px;
+    }
+    
+    .game-card {
+        padding: 10px 5px;
+    }
+    
+    .game-icon {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .dpad-container {
+        bottom: 90px;
+        left: 20px;
+        transform: scale(0.8);
+    }
+    
+    .action-buttons {
+        bottom: 95px;
+        right: 20px;
+        transform: scale(0.8);
+    }
+    
+    .option-buttons {
+        gap: 60px;
+    }
+}
+
+/* Mobile - Medium */
+@media screen and (min-width: 376px) and (max-width: 767px) {
+    body.zarigata-frame .container {
+        width: 400px;
+    }
+    
+    .game-selection {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Tablet */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    body.zarigata-frame .container {
+        width: 600px;
+    }
+    
+    .game-selection {
+        grid-template-columns: repeat(4, 1fr);
+        max-height: 350px;
+    }
+    
+    .screen-content {
+        height: 350px;
+    }
+}
+
+/* Desktop - Small */
+@media screen and (min-width: 1024px) {
+    body.zarigata-frame .container {
+        width: 700px;
+    }
+    
+    .game-selection {
+        grid-template-columns: repeat(5, 1fr);
+        max-height: 400px;
+    }
+    
+    .screen-content {
+        height: 400px;
+    }
+}
+
+/* === PRINT STYLES === */
+@media print {
+    .startup-animation,
+    .settings-modal,
+    .modal-overlay,
+    .action-buttons,
+    .dpad-container,
+    .option-buttons {
+        display: none !important;
+    }
+    
+    body {
+        background-color: white !important;
+    }
+    
+    body.zarigata-frame .container {
+        box-shadow: none !important;
+        transform: none !important;
+        padding: 20px !important;
+    }
+    
+    .screen-content {
+        border: 1px solid #ccc !important;
+    }
+}

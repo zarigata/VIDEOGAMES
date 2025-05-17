@@ -3,22 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZARIGATA - Authentic Retro Games Portal</title>
-    <!-- GameBoy-style CSS replaces the old stylesheet -->
-    <link rel="stylesheet" href="css/gameboy.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>ZARIGATA - Premium Retro Games Portal</title>
+    <!-- ZARIGATA premium retro experience stylesheets -->
+    <link rel="stylesheet" href="css/zarigata.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Font for 8-bit style text -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <!-- Add theme-color for mobile browsers -->
-    <meta name="theme-color" content="#9bbc0f">
+    <meta name="theme-color" content="#0f380f">
     <!-- Prevent zooming on mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Open Graph tags for better sharing -->
+    <meta property="og:title" content="ZARIGATA Premium Retro Gaming">
+    <meta property="og:description" content="Experience authentic retro games with premium visual effects.">
+    <meta property="og:type" content="website">
 </head>
-<body class="pixelated scanlines gameboy-frame">
-    <!-- ZARIGATA Startup Animation -->
-    <div id="gameboy-startup">
-        <div class="startup-logo">ZARIGATA</div>
-        <div class="dev-credit">by Zari</div>
+<body class="pixelated scanlines screen-glare screen-ghosting zarigata-frame">
+    <!-- Wave animations background -->
+    <div class="wave-container">
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
+        <div class="wave wave3"></div>
+    </div>
+    
+    <!-- Enhanced ZARIGATA Startup Animation -->
+    <div class="startup-animation active" id="zarigata-startup">
+        <div class="logo-container">
+            <img src="img/zarigata-logo.png" alt="ZARIGATA" class="startup-logo">
+        </div>
+        <div class="startup-text">PREMIUM RETRO EXPERIENCE</div>
+        <div class="startup-text">BY ZARI</div>
+        <div class="startup-progress">
+            <div class="progress-bar"></div>
+        </div>
     </div>
     
     <div class="container">
@@ -66,7 +83,7 @@
             </div><!-- End screen-content -->
         </div><!-- End screen-frame -->
         
-        <!-- GameBoy Controls -->
+        <!-- ZARIGATA Controls -->
         <div class="dpad-container">
             <div class="dpad-button dpad-up" id="dpad-up">▲</div>
             <div class="dpad-button dpad-right" id="dpad-right">▶</div>
@@ -86,19 +103,81 @@
         </div>
     </div>
     
-    <!-- GameBoy Settings Modal -->
-    <div id="settings-modal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>GAME OPTIONS</h2>
-                <span class="close-btn">&times;</span>
+    <!-- Premium ZARIGATA Settings Modal -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="settings-modal">
+            <div class="settings-title">ZARIGATA SETTINGS</div>
+            <div class="close-modal">&times;</div>
+            
+            <div class="settings-option">
+                <span class="option-label">PIXELATION EFFECT</span>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="pixelation-toggle" class="toggle-checkbox" data-setting="enablePixelation" checked>
+                    <span class="toggle-slider"></span>
+                </div>
             </div>
-            <div class="modal-body">
-                <div class="setting-group">
-                    <h3>DISPLAY</h3>
-                    <div class="setting-item">
-                        <label for="view-mode">View Mode:</label>
-                        <select id="view-mode">
+            
+            <div class="settings-option">
+                <span class="option-label">SCANLINES EFFECT</span>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="scanlines-toggle" class="toggle-checkbox" data-setting="enableScanlines" checked>
+                    <span class="toggle-slider"></span>
+                </div>
+            </div>
+            
+            <div class="settings-option">
+                <span class="option-label">SCREEN GLARE</span>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="glare-toggle" class="toggle-checkbox" data-setting="enableScreenGlare" checked>
+                    <span class="toggle-slider"></span>
+                </div>
+            </div>
+            
+            <div class="settings-option">
+                <span class="option-label">GHOSTING EFFECT</span>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="ghosting-toggle" class="toggle-checkbox" data-setting="enableScreenGhosting" checked>
+                    <span class="toggle-slider"></span>
+                </div>
+            </div>
+            
+            <div class="settings-option">
+                <span class="option-label">WAVE ANIMATIONS</span>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="wave-toggle" class="toggle-checkbox" data-setting="enableWaveEffects" checked>
+                    <span class="toggle-slider"></span>
+                </div>
+            </div>
+            
+            <div class="settings-option">
+                <span class="option-label">BUTTON SOUNDS</span>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="sound-toggle" class="toggle-checkbox" data-setting="enableButtonSounds" checked>
+                    <span class="toggle-slider"></span>
+                </div>
+            </div>
+            
+            <div class="settings-option">
+                <span class="option-label">STARTUP SOUND</span>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="startup-sound-toggle" class="toggle-checkbox" data-setting="enableStartupSound" checked>
+                    <span class="toggle-slider"></span>
+                </div>
+            </div>
+            
+            <div class="settings-option">
+                <span class="option-label">FULLSCREEN MODE</span>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="fullscreen-toggle" class="toggle-checkbox">
+                    <span class="toggle-slider"></span>
+                </div>
+            </div>
+            
+            <div class="vintage-separator"></div>
+            
+            <div class="settings-option">
+                <span class="option-label">DISPLAY MODE</span>
+                <select id="view-mode" class="settings-select">
                             <option value="grid">Grid View</option>
                             <option value="list">List View</option>
                         </select>
@@ -112,7 +191,7 @@
                         <input type="checkbox" id="scanlines-toggle" checked>
                     </div>
                     <div class="setting-item">
-                        <label for="frame-toggle">GameBoy Frame:</label>
+                        <label for="frame-toggle">ZARIGATA Frame:</label>
                         <input type="checkbox" id="frame-toggle" checked>
                     </div>
                     <div class="setting-item">
@@ -175,10 +254,10 @@
     <script>
         /* 
          * ===================================================
-         * ================ GAMEBOY PORTAL ====================
+         * ================ ZARIGATA PORTAL =================
          * ========== CONTROL SYSTEM AND UI LOGIC ============
          * ===================================================
-         * === CODEX v1.0 - GAMEBOY EDITION - MAY 17, 2025 ===
+         * ==== CODEX v1.0 - ZARI PREMIUM - MAY 17, 2025 ====
          * ===================================================
          *
          * :: 8-BIT NOSTALGIA ENGINE ACTIVATED ::
@@ -186,7 +265,7 @@
          * :: READY PLAYER ONE ::
          */
         
-        // GameBoy Hardware Controls
+        // ZARIGATA Hardware Controls
         const dpadUp = document.getElementById('dpad-up');
         const dpadDown = document.getElementById('dpad-down');
         const dpadLeft = document.getElementById('dpad-left');
@@ -226,11 +305,11 @@
         const preloadAssetsCheck = document.getElementById('preload-assets');
         
         /**
-         * GAMEBOY BUTTON SOUND EFFECT SYSTEM
+         * ZARIGATA BUTTON SOUND EFFECT SYSTEM
          * Plays the classic "blip" sound when buttons are pressed
          */
         function playButtonSound() {
-            if (GamePortalConfig.gameboy.buttonSounds && buttonSound) {
+            if (GamePortalConfig.retro.buttonSounds && buttonSound) {
                 // Clone and play to allow rapid succession of sounds
                 const soundClone = buttonSound.cloneNode();
                 soundClone.volume = 0.2;
@@ -276,7 +355,7 @@
         }
         
         /**
-         * INITIALIZE GAMEBOY CONTROLS
+         * INITIALIZE ZARIGATA CONTROLS
          * Sets up event listeners for the physical buttons
          */
         function initControls() {
@@ -430,14 +509,14 @@
         function saveSettings() {
             // Update config with new settings
             GamePortalConfig.portal.defaultView = viewModeSelect.value;
-            GamePortalConfig.gameboy.pixelEffect = pixelEffectToggle.checked;
-            GamePortalConfig.gameboy.scanlines = scanlinesToggle.checked;
-            GamePortalConfig.gameboy.frameVisible = frameToggle.checked;
-            GamePortalConfig.gameboy.buttonSounds = buttonSoundsToggle.checked;
-            GamePortalConfig.gameboy.screenGlare = screenGlareToggle.checked;
-            GamePortalConfig.gameboy.ghosting = ghostingToggle.checked;
+            GamePortalConfig.retro.pixelEffect = pixelEffectToggle.checked;
+            GamePortalConfig.retro.scanlines = scanlinesToggle.checked;
+            GamePortalConfig.retro.frameVisible = frameToggle.checked;
+            GamePortalConfig.retro.buttonSounds = buttonSoundsToggle.checked;
+            GamePortalConfig.retro.screenGlare = screenGlareToggle.checked;
+            GamePortalConfig.retro.ghosting = ghostingToggle.checked;
             GamePortalConfig.gameLoader.startupSound = startupSoundToggle.checked;
-            GamePortalConfig.gameboy.startupAnimation = startupAnimToggle.checked;
+            GamePortalConfig.retro.startupAnimation = startupAnimToggle.checked;
             GamePortalConfig.gameLoader.preloadAssets = preloadAssetsCheck.checked;
             
             // Apply new settings
@@ -468,7 +547,7 @@
         // === INITIALIZE EVERYTHING WHEN DOM IS READY ===
         document.addEventListener('DOMContentLoaded', () => {
             // Load saved settings if available
-            const savedConfig = localStorage.getItem('gamePortalConfig');
+            const savedConfig = localStorage.getItem('zarigataConfig');
             if (savedConfig) {
                 try {
                     // Merge saved config with default
@@ -512,5 +591,14 @@
             }
         });
     </script>
+    
+    <!-- ZARIGATA Premium Effects Engine -->
+    <script src="js/zarigata-effects.js"></script>
+    
+    <!-- ZARIGATA Game Loading System -->
+    <script src="js/config.js"></script>
+    
+    <!-- ZARIGATA Game Data -->
+    <script src="js/games.js"></script>
 </body>
 </html>

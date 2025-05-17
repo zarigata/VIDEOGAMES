@@ -20,15 +20,15 @@ const GamePortalConfig = {
         title: "ZARIGATA PORTAL",
         tagline: "Authentic Retro Games That Actually Deliver",
         theme: {
-            // GameBoy color palette
-            primary: "#0f380f",      // GameBoy dark green
-            secondary: "#306230",    // GameBoy medium green
-            highlight: "#8bac0f",    // GameBoy light green
-            background: "#9bbc0f",   // GameBoy pale green (screen color)
-            textDark: "#0f380f",     // GameBoy dark text
-            textLight: "#306230",    // GameBoy medium text
-            frame: "#8b8b8b",        // GameBoy gray frame
-            buttons: "#2f2f2f",      // GameBoy button color
+            // ZARIGATA color palette
+            primary: "#0f380f",      // ZARIGATA dark green
+            secondary: "#306230",    // ZARIGATA medium green
+            highlight: "#8bac0f",    // ZARIGATA light green
+            background: "#9bbc0f",   // ZARIGATA pale green (screen color)
+            textDark: "#0f380f",     // ZARIGATA dark text
+            textLight: "#306230",    // ZARIGATA medium text
+            frame: "#8b8b8b",        // ZARIGATA frame color
+            buttons: "#2f2f2f",      // ZARIGATA button color
         },
         footer: "© 2025 ZARIGATA - Created by Zari - Press START to continue",
         defaultView: "grid",        // 'grid' or 'list'
@@ -40,7 +40,7 @@ const GamePortalConfig = {
         transitionSpeed: 300,       // Transition speed in ms
         preloadAssets: true,        // Preload game assets for smoother experience
         showLoadingScreen: true,    // Show loading screen while game loads
-        startupSound: true,         // Play GameBoy startup sound when loading games
+        startupSound: true,         // Play ZARIGATA startup sound when loading games
     },
     
     // ZARIGATA system settings
@@ -88,7 +88,7 @@ const GamePortalConfig = {
         // Apply ZARIGATA visual effects
         document.body.classList.toggle('pixelated', this.retro.pixelEffect);
         document.body.classList.toggle('scanlines', this.retro.scanlines);
-        document.body.classList.toggle('gameboy-frame', this.retro.frameVisible);
+        document.body.classList.toggle('zarigata-frame', this.retro.frameVisible);
         document.body.classList.toggle('screen-glare', this.retro.screenGlare);
         document.body.classList.toggle('screen-ghosting', this.retro.ghosting);
         
@@ -112,9 +112,9 @@ const GamePortalConfig = {
         }
         
         // Play startup sound if enabled and this is the first load
-        if (this.retro.startupAnimation && !window.startupPlayed && document.getElementById('gameboy-startup')) {
+        if (this.retro.startupAnimation && !window.startupPlayed && document.getElementById('zarigata-startup')) {
             window.startupPlayed = true;
-            document.getElementById('gameboy-startup').classList.add('show');
+            document.getElementById('zarigata-startup').classList.add('show');
             
             // Play startup sound if enabled
             if (this.gameLoader.startupSound && document.getElementById('startup-sound')) {
@@ -128,7 +128,7 @@ const GamePortalConfig = {
             
             // Hide startup screen after animation
             setTimeout(() => {
-                document.getElementById('gameboy-startup').classList.remove('show');
+                document.getElementById('zarigata-startup').classList.remove('show');
             }, 2500);
         }
     }
