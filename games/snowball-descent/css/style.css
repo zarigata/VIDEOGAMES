@@ -1,0 +1,323 @@
+/**
+ * ███████╗███╗   ██╗ ██████╗ ██╗    ██╗██████╗  █████╗ ██╗     ██╗         ██████╗ ███████╗███████╗ ██████╗███████╗███╗   ██╗████████╗
+ * ██╔════╝████╗  ██║██╔═══██╗██║    ██║██╔══██╗██╔══██╗██║     ██║         ██╔══██╗██╔════╝██╔════╝██╔════╝██╔════╝████╗  ██║╚══██╔══╝
+ * ███████╗██╔██╗ ██║██║   ██║██║ █╗ ██║██████╔╝███████║██║     ██║         ██║  ██║█████╗  ███████╗██║     █████╗  ██╔██╗ ██║   ██║   
+ * ╚════██║██║╚██╗██║██║   ██║██║███╗██║██╔══██╗██╔══██║██║     ██║         ██║  ██║██╔══╝  ╚════██║██║     ██╔══╝  ██║╚██╗██║   ██║   
+ * ███████║██║ ╚████║╚██████╔╝╚███╔███╔╝██████╔╝██║  ██║███████╗███████╗    ██████╔╝███████╗███████║╚██████╗███████╗██║ ╚████║   ██║   
+ * ╚══════╝╚═╝  ╚═══╝ ╚═════╝  ╚══╝╚══╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝    ╚═════╝ ╚══════╝╚══════╝ ╚═════╝╚══════╝╚═╝  ╚═══╝   ╚═╝   
+ *
+ * :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+ * ::::::::::::::::::::::::: CODEX STYLING SYSTEM v3.7.2 :: ZARIGATA DEVELOPMENT UNIT X99 APPROVED :::::::::::::::::::::::::::::::::::
+ * :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+ *
+ * Retro Vector Styling for Snowball Descent Game Engine
+ * ZARI REVISION DATE: 2025-05-17
+ * SYSTEM: ZARIGATA RETRO ARCADE PLATFORM
+ * ENGINE VERSION: 1.0.0 VECTOR-ONLY RENDERING
+ */
+
+/* Base Variables for Consistent Styling */
+:root {
+    /* Core color palette - vector-based retro theme */
+    --primary-color: #0f380f;      /* Dark green for backgrounds */
+    --secondary-color: #306230;    /* Medium green for elements */
+    --highlight-color: #8bac0f;    /* Light green for highlights */
+    --accent-color: #9bbc0f;       /* Pale green for accents */
+    --text-light: #e0f8d0;         /* Light green for text */
+    --text-dark: #0f380f;          /* Dark green for contrast text */
+    --danger-color: #e5004f;       /* Red for danger/game over */
+    --snow-color: #e0f8ff;         /* Off-white for snow */
+    --rock-color: #706458;         /* Brown for obstacles */
+    --tree-color: #248232;         /* Green for trees */
+    --house-color: #d64161;        /* Red for houses */
+    
+    /* Game dimensions */
+    --game-width: 100%;
+    --game-height: 100vh;
+    --control-size: 60px;
+    
+    /* Animation speeds */
+    --fast-anim: 0.2s;
+    --medium-anim: 0.5s;
+    --slow-anim: 1s;
+    
+    /* Styling for pixel aesthetic */
+    --pixel-size: 2px;
+    --border-radius: 4px;
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Press Start 2P', monospace, 'Courier New', Courier;
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+/* Game Container - Main frame for the game */
+.game-container {
+    position: relative;
+    width: var(--game-width);
+    height: var(--game-height);
+    overflow: hidden;
+    background-color: var(--primary-color);
+}
+
+/* Canvas styling */
+#gameCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    z-index: 1;
+    /* Pixelated rendering for retro feel */
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* UI Container - Holds score and size info */
+.ui-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    font-size: 16px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+}
+
+.score-display, .size-display {
+    margin-bottom: 10px;
+    background-color: rgba(15, 56, 15, 0.7);
+    padding: 5px 10px;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--secondary-color);
+}
+
+.score-label, .size-label {
+    margin-right: 10px;
+    color: var(--text-light);
+}
+
+#score, #snowballSize {
+    color: var(--highlight-color);
+    font-weight: bold;
+}
+
+/* Game Message - Used for various in-game notifications */
+.game-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: var(--highlight-color);
+    text-align: center;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+    z-index: 10;
+    opacity: 0;
+    transition: opacity var(--medium-anim) ease;
+}
+
+.game-message.visible {
+    opacity: 1;
+}
+
+/* Controls for mobile devices */
+.controls-container {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 10;
+}
+
+.control-button {
+    width: var(--control-size);
+    height: var(--control-size);
+    background-color: var(--secondary-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-light);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    opacity: 0.7;
+    transition: all var(--fast-anim) ease;
+}
+
+.control-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    opacity: 1;
+    background-color: var(--highlight-color);
+}
+
+/* Game Screens (Start, Game Over) */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(15, 56, 15, 0.9);
+    z-index: 20;
+    padding: 20px;
+    text-align: center;
+}
+
+.screen.hidden {
+    display: none;
+}
+
+.title {
+    font-size: 32px;
+    color: var(--highlight-color);
+    margin-bottom: 30px;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+    letter-spacing: 2px;
+}
+
+.instructions, .controls-info {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    max-width: 80%;
+}
+
+.instructions p, .controls-info p {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.final-score, .high-score {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: var(--text-light);
+}
+
+.final-score span:last-child, .high-score span:last-child {
+    color: var(--highlight-color);
+    margin-left: 10px;
+}
+
+.game-button {
+    background-color: var(--highlight-color);
+    color: var(--text-dark);
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    font-family: inherit;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    transition: all var(--fast-anim) ease;
+}
+
+.game-button:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+}
+
+.game-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    
+    .instructions p, .controls-info p {
+        font-size: 12px;
+    }
+    
+    .game-button {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+    
+    .ui-container {
+        font-size: 14px;
+    }
+    
+    .controls-container {
+        padding: 0 10px;
+    }
+    
+    .control-button {
+        width: calc(var(--control-size) * 0.8);
+        height: calc(var(--control-size) * 0.8);
+    }
+}
+
+/* Pixel effect for retro aesthetic */
+.pixelated {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* Animation for size up effect */
+@keyframes sizeUp {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.size-up {
+    animation: sizeUp var(--fast-anim) ease;
+}
+
+/* Animation for size down effect */
+@keyframes sizeDown {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.8); }
+    100% { transform: scale(1); }
+}
+
+.size-down {
+    animation: sizeDown var(--fast-anim) ease;
+}
+
+/* Glow effect for collectible snow */
+.glow {
+    filter: drop-shadow(0 0 5px var(--highlight-color));
+}
+
+/* Pulse animation for indicators */
+@keyframes pulse {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+}
+
+.pulse {
+    animation: pulse var(--slow-anim) infinite;
+}

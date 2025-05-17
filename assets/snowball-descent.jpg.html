@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Snowball Descent Thumbnail</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 300px;
+            height: 180px;
+            overflow: hidden;
+        }
+        .thumbnail {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e3b70 0%, #5d8bc3 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 22px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+        .icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+            z-index: 10;
+        }
+        .mountain {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: linear-gradient(180deg, transparent 0%, #ffffff 100%);
+            clip-path: polygon(0% 100%, 20% 60%, 40% 80%, 60% 50%, 75% 70%, 100% 30%, 100% 100%);
+        }
+        .snowball {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: white;
+            border-radius: 50%;
+            top: 45%;
+            left: 30%;
+            box-shadow: 0 0 10px rgba(255,255,255,0.8);
+        }
+        .snow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .snowflake {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(200px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="thumbnail">
+        <div class="snow" id="snow"></div>
+        <div class="mountain"></div>
+        <div class="snowball"></div>
+        <div>
+            <div class="icon">❄️</div>
+            <h1>Snowball Descent</h1>
+        </div>
+    </div>
+
+    <script>
+        // Generate snowflakes
+        const snow = document.getElementById('snow');
+        for (let i = 0; i < 30; i++) {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.style.left = Math.random() * 100 + '%';
+            snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            snowflake.style.animationDelay = Math.random() * 5 + 's';
+            snowflake.style.opacity = Math.random() * 0.7 + 0.3;
+            snow.appendChild(snowflake);
+        }
+    </script>
+</body>
+</html>

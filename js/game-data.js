@@ -23,6 +23,15 @@
 
 const GAMES = [
     {
+        id: "snowball-descent",
+        title: "Snowball Descent",
+        description: "Roll downhill gathering snow and grow your snowball while avoiding obstacles. Pure vector-based graphics with no images - an authentic arcade experience.",
+        image: "assets/snowball-descent.jpg",
+        path: "games/snowball-descent/index.html",
+        tags: ["arcade", "physics", "vector"],
+        created: "2025-05-17"
+    },
+    {
         id: "match-3",
         title: "Actually Match 3",
         description: "The real deal match-3 puzzle game. No false advertising - just match 3 gems and score points. No complicated storyline, just pure gameplay.",

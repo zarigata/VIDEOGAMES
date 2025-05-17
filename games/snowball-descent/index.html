@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snowball Descent - ZARIGATA</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Ensures game works on both mobile and desktop -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+</head>
+<body>
+    <!-- Game container with canvas -->
+    <div class="game-container">
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- Game UI elements -->
+        <div class="ui-container">
+            <div class="score-display">
+                <span class="score-label">SCORE:</span>
+                <span id="score">0</span>
+            </div>
+            <div class="size-display">
+                <span class="size-label">SIZE:</span>
+                <span id="snowballSize">1</span>
+            </div>
+            <div class="game-message" id="gameMessage"></div>
+        </div>
+        
+        <!-- Game controls for mobile -->
+        <div class="controls-container">
+            <div id="leftControl" class="control-button">◀</div>
+            <div id="rightControl" class="control-button">▶</div>
+        </div>
+        
+        <!-- Game start screen -->
+        <div id="startScreen" class="screen">
+            <div class="title">SNOWBALL DESCENT</div>
+            <div class="instructions">
+                <p>Roll down the hill collecting snow!</p>
+                <p>Avoid obstacles like rocks and trees.</p>
+                <p>The bigger you get, the more points you earn!</p>
+            </div>
+            <div class="controls-info">
+                <p>DESKTOP: Use ← → Arrow Keys</p>
+                <p>MOBILE: Use On-screen Controls</p>
+            </div>
+            <button id="startButton" class="game-button">START GAME</button>
+        </div>
+        
+        <!-- Game over screen -->
+        <div id="gameOverScreen" class="screen hidden">
+            <div class="title">GAME OVER</div>
+            <div class="final-score">
+                <span>FINAL SCORE:</span>
+                <span id="finalScore">0</span>
+            </div>
+            <div class="high-score">
+                <span>HIGH SCORE:</span>
+                <span id="highScore">0</span>
+            </div>
+            <button id="restartButton" class="game-button">PLAY AGAIN</button>
+        </div>
+    </div>
+
+    <!-- Game scripts -->
+    <script src="js/game-config.js"></script>
+    <script src="js/vector-math.js"></script>
+    <script src="js/obstacle-generator.js"></script>
+    <script src="js/snowball.js"></script>
+    <script src="js/render-engine.js"></script>
+    <script src="js/collision-system.js"></script>
+    <script src="js/particle-system.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
