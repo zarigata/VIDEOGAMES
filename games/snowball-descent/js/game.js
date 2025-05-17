@@ -688,4 +688,32 @@ class SnowballDescent {
 document.addEventListener('DOMContentLoaded', () => {
     // Create the game
     window.game = new SnowballDescent();
+    
+    /**
+     * ================================================================================
+     * ::CODEX:: AUTO-START PROTOCOL v1.2.2 - ZARIGATA INTEGRATION MODULE
+     * ================================================================================
+     * This auto-start code ensures smooth launching from the ZARIGATA portal.
+     * It automatically starts the game after a short delay to ensure all resources
+     * are loaded properly and the player is ready.
+     * ================================================================================
+     */
+    setTimeout(() => {
+        // Check if game initialized properly
+        if (window.game && !window.game.isPlaying && !window.game.gameOverState) {
+            console.log('::CODEX AUTO-START:: Initiating Snowball Descent launch sequence');
+            
+            // Auto start the game
+            const startButton = document.getElementById('startButton');
+            if (startButton) {
+                // Simulate click on start button
+                startButton.click();
+                console.log('::CODEX AUTO-START:: Game launched successfully');
+            } else {
+                // Direct start if button not found
+                window.game.startGame();
+                console.log('::CODEX AUTO-START:: Game launched directly (no button found)');
+            }
+        }
+    }, 1500); // 1.5 second delay for smooth transition
 });

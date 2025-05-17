@@ -30,42 +30,6 @@ const GAMES = [
         path: "games/snowball-descent/index.html",
         tags: ["arcade", "physics", "vector"],
         created: "2025-05-17"
-    },
-    {
-        id: "match-3",
-        title: "Actually Match 3",
-        description: "The real deal match-3 puzzle game. No false advertising - just match 3 gems and score points. No complicated storyline, just pure gameplay.",
-        image: "assets/match-3.jpg",
-        path: "games/match-3/index.html",
-        tags: ["puzzle", "casual", "match-3"],
-        created: "2025-05-17"
-    },
-    {
-        id: "runner",
-        title: "Honest Runner",
-        description: "A straightforward runner game where you actually run and dodge obstacles. No princesses to save, no complicated plot twists.",
-        image: "assets/runner.jpg",
-        path: "games/runner/index.html",
-        tags: ["arcade", "runner", "casual"],
-        created: "2025-05-17"
-    },
-    {
-        id: "snake",
-        title: "Just Snake",
-        description: "The classic snake game. Eat food, grow longer, don't hit walls or yourself. That's it - exactly as advertised.",
-        image: "assets/snake.jpg",
-        path: "games/snake/index.html",
-        tags: ["classic", "arcade", "snake"],
-        created: "2025-05-17"
-    },
-    {
-        id: "memory",
-        title: "Memory Match",
-        description: "A real memory card matching game. Find pairs of matching cards. No hidden fees, no bait and switch.",
-        image: "assets/memory.jpg",
-        path: "games/memory/index.html",
-        tags: ["puzzle", "memory", "casual"],
-        created: "2025-05-17"
     }
 ];
 

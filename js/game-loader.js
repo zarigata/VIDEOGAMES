@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     
     /**
-     * BOOTSTRAP PROTOCOL: POPULATE GAME GRID
-     * Renders all available games from the GameAPI
+     * BOOTSTRAP PROTOCOL: POPULATE GAME GRID AND AUTO-LOAD SNOWBALL DESCENT
+     * Since we only have one game, we'll immediately load it
      */
     function initializeGames() {
         // Clear existing game cards if any
@@ -41,11 +41,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Retrieve all games from the API
         const games = GameAPI.getAllGames();
         
-        // Generate game cards for each game
-        games.forEach(game => {
-            const gameCard = createGameCard(game);
+        // Auto-load Snowball Descent (the only game)
+        if (games.length > 0) {
+            // We could just directly load the game, but let's show the card first for 1 second
+            const gameCard = createGameCard(games[0]);
             gameGrid.appendChild(gameCard);
-        });
+            
+            // Auto-load the game after a short delay
+            setTimeout(() => {
+                loadGame(games[0].id);
+            }, 1000);
+        }
     }
     
     /**
